@@ -1,0 +1,8 @@
+# Secret & database — JANGAN di-commit
+config.local.php
+data/*.sqlite
+data/*.sqlite3
+data/*.db
+data/*.sqlite-wal
+data/*.sqlite-shm
+data/*.journal

@@ -1,0 +1,316 @@
+/* =========================================================
+   SeArah — Dedicated Admin Portal Styles
+   ========================================================= */
+
+/* Gatekeeper Screen (Akses Rahasia / Khusus Link) */
+.admin-gate-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 20%, #1e3a8a 0%, #0f172a 70%);
+  padding: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.admin-gate-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  padding: 36px 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-gate-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #1d4ed8, #3b82f6, #0284c7);
+}
+
+.admin-gate-icon {
+  width: 64px;
+  height: 64px;
+  background: #eff6ff;
+  border: 2px solid #bfdbfe;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  color: #1d4ed8;
+}
+
+.admin-gate-title {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-navy);
+  margin: 0 0 6px;
+}
+
+.admin-gate-sub {
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* Admin Dashboard Container */
+.admin-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* Admin Top Bar */
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.admin-topbar__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-topbar__title h1 {
+  margin: 0;
+  font-size: var(--text-2xl);
+  color: var(--color-navy);
+}
+
+.admin-topbar__badge {
+  background: #0f172a;
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.admin-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* KPI / Metrics Row */
+.admin-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-metric-card {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s;
+}
+
+.admin-metric-card:hover {
+  transform: translateY(-2px);
+}
+
+.admin-metric-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.admin-metric-val {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-navy);
+  line-height: 1.1;
+}
+
+.admin-metric-lbl {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+/* Navigation Tabs */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--color-border);
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.admin-tab-btn {
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.admin-tab-btn:hover {
+  color: var(--color-navy);
+}
+
+.admin-tab-btn.is-active {
+  color: var(--color-blue);
+  border-bottom-color: var(--color-blue);
+  background: rgba(37, 99, 235, 0.04);
+  border-radius: 6px 6px 0 0;
+}
+
+.admin-tab-count {
+  background: var(--color-gray-light);
+  color: var(--color-navy);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.admin-tab-btn.is-active .admin-tab-count {
+  background: var(--color-blue);
+  color: #ffffff;
+  border-color: var(--color-blue);
+}
+
+/* Admin Data Table */
+.admin-table-wrap {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-card-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-table-toolbar {
+  padding: 14px 18px;
+  background: var(--color-gray-light);
+  border-bottom: 1.5px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.admin-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background: #f8faff;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Modal Popup */
+.admin-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.admin-modal {
+  width: 100%;
+  max-width: 580px;
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: adminModalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes adminModalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.admin-modal-header {
+  padding: 18px 24px;
+  background: var(--color-navy);
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-modal-body {
+  padding: 24px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.admin-modal-footer {
+  padding: 16px 24px;
+  background: var(--color-gray-light);
+  border-top: 1.5px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

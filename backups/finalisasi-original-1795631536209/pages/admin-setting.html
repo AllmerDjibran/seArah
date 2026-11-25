@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pengaturan Kontak — Admin SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <div style="max-width:760px;margin:24px auto 60px">
+    <div class="flow-card">
+      <h1 style="margin:0 0 4px">⚙️ Pengaturan Kontak Perusahaan</h1>
+      <p style="font-size:var(--text-sm);color:var(--color-muted);margin:0 0 16px">
+        Atur nomor WhatsApp, akun Instagram, TikTok, dan Customer Service yang tampil di widget kontak mengambang &amp; footer.
+      </p>
+
+      <form id="contact-form" style="display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label for="wa">Nomor WhatsApp (CS)</label>
+          <input id="wa" name="wa" placeholder="0812-3456-7890" required>
+        </div>
+        <div class="field">
+          <label for="ig">Akun Instagram</label>
+          <input id="ig" name="ig" placeholder="@searah.id" required>
+        </div>
+        <div class="field">
+          <label for="tiktok">Akun TikTok</label>
+          <input id="tiktok" name="tiktok" placeholder="@searah.id" required>
+        </div>
+        <div class="field">
+          <label for="cs">Nama / Keterangan Customer Service</label>
+          <input id="cs" name="cs" placeholder="Customer Service SeArah 24 Jam" required>
+        </div>
+
+        <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:12px;font-size:13px">
+          <b>Pratinjau widget kontak:</b><br>
+          🟢 WhatsApp: <span id="pv-wa"></span> · 📸 Instagram: <span id="pv-ig"></span> · 🎵 TikTok: <span id="pv-tt"></span> · 🎧 CS: <span id="pv-cs"></span>
+        </div>
+
+        <button class="btn btn--primary btn--lg" type="submit" id="btn-save">💾 Simpan Pengaturan</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  if (!UI.requireAdmin()) throw new Error("redirect");
+
+  const f = document.getElementById("contact-form");
+  const pv = (id, val) => { document.getElementById(id).textContent = val || "-"; };
+
+  function fill(c) {
+    f.wa.value = c.wa || ""; f.ig.value = c.ig || ""; f.tiktok.value = c.tiktok || ""; f.cs.value = c.cs || "";
+    pv("pv-wa", c.wa); pv("pv-ig", c.ig); pv("pv-tt", c.tiktok); pv("pv-cs", c.cs);
+  }
+  fill(api.getContact());
+
+  ["wa", "ig", "tiktok", "cs"].forEach((n) => f[n].addEventListener("input", () => {
+    pv("pv-wa", f.wa.value); pv("pv-ig", f.ig.value); pv("pv-tt", f.tiktok.value); pv("pv-cs", f.cs.value);
+  }));
+
+  f.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("btn-save");
+    btn.disabled = true; btn.textContent = "Menyimpan...";
+    try {
+      const c = await api.saveContact({ wa: f.wa.value.trim(), ig: f.ig.value.trim(), tiktok: f.tiktok.value.trim(), cs: f.cs.value.trim() });
+      UI.toast("Pengaturan kontak tersimpan.", "success");
+      fill(c);
+      UI.footer(); // perbarui footer
+    } catch (err) {
+      UI.toast(err.message || "Gagal menyimpan.", "error");
+    } finally {
+      btn.disabled = false; btn.textContent = "💾 Simpan Pengaturan";
+    }
+  });
+</script>
+</body>
+</html>

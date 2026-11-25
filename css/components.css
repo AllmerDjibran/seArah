@@ -3,6 +3,25 @@
    Navbar, Button, Card, Field, Stepper, Toast, Modal, Footer
    ========================================================= */
 
+/* Server-backed operational forms preserve the shared design tokens. */
+.server-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.server-form fieldset, .server-form #addresses, .server-form #quote, .server-form #relocation-coords { grid-column: 1 / -1; min-width: 0; }
+.server-form fieldset { border: 1px solid var(--color-border); border-radius: 8px; padding: 14px; }
+.server-form select, .server-record select { width: 100%; padding: 10px; font: inherit; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-white); color: var(--color-navy); }
+.server-record { border: 1px solid var(--color-border); border-radius: 12px; padding: 16px; margin: 16px 0; overflow-wrap: anywhere; }
+.server-notice { color: var(--color-muted); margin: 16px 0; line-height: 1.6; }
+.server-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+.server-json { max-width: 100%; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+#app { min-width: 0; overflow-wrap: anywhere; }
+#app [hidden] { display: none !important; }
+@media (max-width: 600px) { .navbar > .wrap { flex-wrap: wrap; gap: 10px; } .navbar__user { min-width: 0; max-width: 100%; } .navbar__user-info { min-width: 0; } .navbar__name { overflow: hidden; text-overflow: ellipsis; max-width: 140px; } .server-form { grid-template-columns: minmax(0, 1fr); } #app { padding: 16px; } #app .btn { max-width: 100%; white-space: normal; margin-bottom: 6px; } }
+
+/* ---------- Sticky footer ke dasar viewport ---------- */
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1 0 auto; }
+#footer-slot { flex-shrink: 0; }
+
 /* ---------- Layout helper ---------- */
 .wrap {
   max-width: calc(var(--page-max) + 2 * var(--page-pad));
@@ -10,16 +29,35 @@
   padding: 0 var(--page-pad);
 }
 
-/* ---------- Navbar ---------- */
-.navbar {
-  background: radial-gradient(circle at 50% 0, var(--color-navbar-start), var(--color-navbar-end));
-  min-height: var(--navbar-height);
+/* ---------- Navbar Slot ---------- */
+#navbar-slot {
   position: sticky;
   top: 0;
   z-index: var(--z-navbar);
+  width: 100%;
+  pointer-events: none;
+  transition: top 0.25s ease;
+}
+
+#navbar-slot.has-scrolled {
+  top: 18px;
+}
+
+/* ---------- Navbar Base ---------- */
+.navbar {
+  pointer-events: auto;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  background: radial-gradient(circle at 50% 0, var(--color-navbar-start), var(--color-navbar-end));
+  min-height: var(--navbar-height);
   box-shadow: 0 4px 20px rgba(0, 17, 40, 0.3);
   display: flex;
   align-items: center;
+  border: 1px solid transparent;
+  border-radius: 0;
+  padding: 0 var(--page-pad);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .navbar .wrap {
   display: flex;
@@ -28,12 +66,15 @@
   width: 100%;
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .navbar__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 .navbar__logo-img {
   width: 44px;
@@ -42,24 +83,167 @@
   border-radius: var(--radius-btn-sm);
   background: rgba(255, 255, 255, 0.1);
   padding: 4px;
+  transition: all 0.3s ease;
 }
 .navbar__logo {
   color: var(--color-white);
   font-weight: var(--fw-extrabold);
-  font-size: var(--text-3xl);
+  font-size: var(--text-2xl);
   letter-spacing: -0.5px;
   line-height: 1;
+  transition: color 0.3s ease, font-size 0.3s ease;
 }
-.navbar__btns {
+
+/* Center Nav Links (Reference Style) */
+.navbar__nav {
   display: flex;
-  gap: var(--space-3);
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.navbar__nav::-webkit-scrollbar { display: none; }
+.navbar__link {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 9px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.navbar__link:hover {
+  color: #ffffff;
+}
+.navbar__link.is-active {
+  color: #ffffff;
+  font-weight: 700;
+}
+.navbar__dot {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* Action Buttons */
+.navbar__btns,
+.navbar__actions {
+  display: flex;
+  gap: 12px;
   align-items: center;
 }
+
+.navbar__btn-outline {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 18px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+.navbar__btn-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+.navbar__btn-accent {
+  background: #ff385c;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 22px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+  box-shadow: 0 4px 14px rgba(255, 56, 92, 0.35);
+}
+.navbar__btn-accent:hover {
+  background: #e02447;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 56, 92, 0.45);
+}
+.navbar__btn-accent:active {
+  transform: translateY(0);
+}
+
+/* ---------- Floating Scrolled State (Like Reference Image) ---------- */
+.navbar.is-scrolled {
+  margin: 0 auto;
+  width: min(1160px, calc(100% - 32px));
+  min-height: 60px;
+  background: rgba(248, 250, 252, 0.94);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 9999px; /* Floating Island Pill */
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 6px 20px;
+}
+.navbar.is-scrolled .wrap {
+  padding: 0;
+  max-width: 100%;
+}
+.navbar.is-scrolled .navbar__logo {
+  color: #0f172a;
+  font-size: 22px;
+}
+.navbar.is-scrolled .navbar__logo-img {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  padding: 0;
+}
+.navbar.is-scrolled .navbar__link {
+  color: #475569;
+}
+.navbar.is-scrolled .navbar__link:hover {
+  color: var(--color-navy);
+}
+.navbar.is-scrolled .navbar__link.is-active {
+  color: #0f172a;
+  font-weight: 700;
+}
+.navbar.is-scrolled .navbar__dot {
+  color: #0f172a;
+}
+.navbar.is-scrolled .navbar__btn-outline {
+  border-color: #ff385c;
+  color: #ff385c;
+  background: transparent;
+}
+.navbar.is-scrolled .navbar__btn-outline:hover {
+  background: rgba(255, 56, 92, 0.08);
+}
+.navbar.is-scrolled .navbar__name {
+  color: #0f172a;
+}
+.navbar.is-scrolled .navbar__role-badge {
+  color: #0284c7;
+}
+
 .navbar__user {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 .navbar__avatar {
   width: 42px;
@@ -88,12 +272,18 @@
   color: var(--color-white);
   font-weight: var(--fw-semibold);
   font-size: var(--text-sm);
+  white-space: nowrap;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
 }
 .navbar__role-badge {
   font-size: 11px;
   font-weight: var(--fw-semibold);
   color: #93c5fd;
   text-transform: capitalize;
+  transition: color 0.3s ease;
 }
 
 /* Dropdown profil */
@@ -445,10 +635,10 @@
 .toast-container {
   position: fixed;
   bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 24px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
   z-index: var(--z-toast);
   pointer-events: none;
@@ -562,9 +752,32 @@
   color: #64748b;
 }
 
+@media (max-width: 860px) {
+  .navbar__nav { display: none; }
+}
+
 @media (max-width: 768px) {
   .footer__grid { grid-template-columns: 1fr; gap: var(--space-6); }
   .navbar__logo { font-size: var(--text-2xl); }
+}
+
+@media (max-width: 520px) {
+  #navbar-slot.has-scrolled {
+    top: 10px;
+  }
+  .navbar.is-scrolled {
+    width: calc(100% - 20px);
+    margin: 0 auto;
+    padding: 6px 14px;
+  }
+  .navbar__btn-outline {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .navbar__btn-accent {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
 }
 
 /* ---------- Print Helper ---------- */

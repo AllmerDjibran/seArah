@@ -1,0 +1,10 @@
+/* =========================================================
+   SeArah — Form daftar bertahap (Fase 3)
+   Dipakai daftar-penumpang.html & daftar-pengemudi.html
+   ========================================================= */
+.reg-progress { margin-bottom: var(--space-6); }
+.reg-panel { display: none; }
+.reg-panel--active { display: block; }
+.reg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+@media (max-width: 560px) { .reg-grid { grid-template-columns: 1fr; } }
+.reg-grid .field--full { grid-column: 1 / -1; }

@@ -1,0 +1,18 @@
+# SEARAH API — routing ke index.php + teruskan header Authorization
+Options -Indexes -MultiViews
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # lewati file yang benar-benar ada
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ index.php?r=$1 [QSA,L]
+</IfModule>
+
+# Pastikan $_SERVER['HTTP_AUTHORIZATION'] tersedia (Apache/CGI)
+<IfModule mod_rewrite.c>
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
