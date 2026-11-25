@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pendaftaran Mitra Pengemudi — SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/register.css">
+<link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <div class="auth-wrap">
+    <div class="form-page">
+      <div id="stepper" style="margin-bottom:24px"></div>
+
+      <div class="auth-card" style="width:100%">
+        <form id="reg-form" novalidate>
+          <!-- Step 1: Kredensial Akun -->
+          <section class="reg-panel reg-panel--active" data-step="0">
+            <h1>Pendaftaran Mitra Driver</h1>
+            <p class="sub">Langkah 1 dari 2: Buat Akun &amp; Kredensial</p>
+
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px">
+              <div class="field">
+                <label for="nama">Nama Lengkap Pengemudi</label>
+                <input id="nama" name="nama" placeholder="Contoh: Ahmad Fauzi" required>
+              </div>
+              <div class="field">
+                <label for="email">Alamat Email Aktif</label>
+                <input id="email" name="email" type="email" placeholder="ahmad@driver.id" required>
+              </div>
+              <div class="field">
+                <label for="password">Password Baru</label>
+                <input id="password" name="password" type="password" placeholder="Minimal 6 karakter" required>
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 2: Unggah Dokumen KTP & SIM -->
+          <section class="reg-panel" data-step="1">
+            <h1>Unggah Dokumen Legalitas</h1>
+            <p class="sub">Langkah 2 dari 2: Verifikasi KTP &amp; SIM (Dokumen 5.2)</p>
+
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+              <div class="field">
+                <label for="ktp">Foto KTP Asli (e-KTP)</label>
+                <div class="upload-dropzone" onclick="document.getElementById('ktp').click()">
+                  <div style="font-size:28px">🪪</div>
+                  <div style="font-size:13px;font-weight:700;color:var(--color-navy);margin-top:4px" id="ktp-lbl">Pilih atau Seret Foto KTP</div>
+                  <div style="font-size:11px;color:var(--color-muted)">Format JPG, PNG, atau PDF (maks. 5MB)</div>
+                </div>
+                <input id="ktp" name="ktp" type="file" accept="image/*,application/pdf" style="display:none" onchange="updateFileLabel(this, 'ktp-lbl')">
+              </div>
+
+              <div class="field">
+                <label for="sim">Foto SIM Aktif (SIM A / B Umum)</label>
+                <div class="upload-dropzone" onclick="document.getElementById('sim').click()">
+                  <div style="font-size:28px">🚗</div>
+                  <div style="font-size:13px;font-weight:700;color:var(--color-navy);margin-top:4px" id="sim-lbl">Pilih atau Seret Foto SIM</div>
+                  <div style="font-size:11px;color:var(--color-muted)">Pastikan masa berlaku SIM masih aktif</div>
+                </div>
+                <input id="sim" name="sim" type="file" accept="image/*,application/pdf" style="display:none" onchange="updateFileLabel(this, 'sim-lbl')">
+              </div>
+            </div>
+
+            <div style="background:#eff6ff;padding:12px;border-radius:8px;font-size:12px;color:#1e40af;margin-top:16px;line-height:1.5">
+              ℹ️ Dokumen Anda akan diperiksa secara manual oleh Administrator SeArah. Akun akan berstatus <b>Menunggu Verifikasi</b> sampai disetujui.
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost" id="btn-back" hidden>‹ Kembali</button>
+            <button type="button" class="btn btn--primary btn--lg" id="btn-next">Lanjut ke Dokumen ›</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script src="register.js"></script>
+<script>
+  Register.init({
+    role: "pengemudi",
+    steps: ["Kredensial Akun", "Unggah KTP & SIM"]
+  });
+
+  function updateFileLabel(input, lblId) {
+    const lbl = document.getElementById(lblId);
+    if (input.files && input.files[0]) {
+      lbl.textContent = `✓ ${input.files[0].name}`;
+      lbl.style.color = "var(--color-success)";
+    }
+  }
+</script>
+</body>
+</html>

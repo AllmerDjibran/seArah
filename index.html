@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SeArah – Perjalanan Antar Kota, Aman &amp; Nyaman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/typography.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/landing.css">
+<link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main>
+  <!-- Hero Section (Figma & Traveloka Style) -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Perjalanan Antar Kota, Aman &amp; Nyaman</h1>
+      <p>Pilih paket Reguler, Door to Door, atau Private. Driver terverifikasi mitra resmi, armada prima, dilindungi asuransi perjalanan.</p>
+
+      <!-- Search Box Widget -->
+      <form class="search" id="search-form">
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab" role="tab" aria-selected="true" data-paket="reguler">
+            <span>🚐</span> <span>Reguler (Garasi)</span>
+          </button>
+          <button type="button" class="tab" role="tab" aria-selected="false" data-paket="door-to-door">
+            <span>🚪</span> <span>Door to Door</span>
+          </button>
+          <button type="button" class="tab" role="tab" aria-selected="false" data-paket="private">
+            <span>⭐</span> <span>Private Eksklusif</span>
+          </button>
+        </div>
+
+        <div class="fields">
+          <div class="field">
+            <label for="asal">Kota Asal (Jawa Timur)</label>
+            <select id="asal" name="asal" required>
+              <optgroup label="Wilayah III (Malang Raya & Mataraman)">
+                <option value="Kepanjen" selected>Kepanjen (Malang)</option>
+                <option value="Malang">Malang Kota</option>
+                <option value="Batu">Kota Batu</option>
+                <option value="Blitar">Blitar</option>
+                <option value="Kediri">Kediri</option>
+                <option value="Tulungagung">Tulungagung</option>
+                <option value="Madiun">Madiun</option>
+                <option value="Ponorogo">Ponorogo</option>
+                <option value="Nganjuk">Nganjuk</option>
+                <option value="Trenggalek">Trenggalek</option>
+                <option value="Magetan">Magetan</option>
+                <option value="Ngawi">Ngawi</option>
+              </optgroup>
+              <optgroup label="Wilayah I (Gerbangkertosusila & Madura)">
+                <option value="Surabaya">Surabaya</option>
+                <option value="Sidoarjo">Sidoarjo</option>
+                <option value="Pasuruan">Pasuruan</option>
+                <option value="Mojokerto">Mojokerto</option>
+                <option value="Gresik">Gresik</option>
+                <option value="Madura">Bangkalan / Madura</option>
+                <option value="Sampang">Sampang</option>
+                <option value="Pamekasan">Pamekasan</option>
+                <option value="Sumenep">Sumenep</option>
+              </optgroup>
+              <optgroup label="Wilayah II (Tapal Kuda & Pantura Timur)">
+                <option value="Probolinggo">Probolinggo</option>
+                <option value="Lumajang">Lumajang</option>
+                <option value="Jember">Jember</option>
+                <option value="Situbondo">Situbondo</option>
+                <option value="Bondowoso">Bondowoso</option>
+                <option value="Banyuwangi">Banyuwangi</option>
+              </optgroup>
+              <optgroup label="Wilayah IV (Jombang & Pantura Barat)">
+                <option value="Jombang">Jombang</option>
+                <option value="Lamongan">Lamongan</option>
+                <option value="Bojonegoro">Bojonegoro</option>
+                <option value="Tuban">Tuban</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tujuan">Kota Tujuan (Jawa Timur)</label>
+            <select id="tujuan" name="tujuan" required>
+              <optgroup label="Wilayah I (Gerbangkertosusila & Madura)">
+                <option value="Surabaya" selected>Surabaya</option>
+                <option value="Sidoarjo">Sidoarjo</option>
+                <option value="Pasuruan">Pasuruan</option>
+                <option value="Mojokerto">Mojokerto</option>
+                <option value="Gresik">Gresik</option>
+                <option value="Madura">Bangkalan / Madura</option>
+                <option value="Sampang">Sampang</option>
+                <option value="Pamekasan">Pamekasan</option>
+                <option value="Sumenep">Sumenep</option>
+              </optgroup>
+              <optgroup label="Wilayah III (Malang Raya & Mataraman)">
+                <option value="Kepanjen">Kepanjen (Malang)</option>
+                <option value="Malang">Malang Kota</option>
+                <option value="Batu">Kota Batu</option>
+                <option value="Blitar">Blitar</option>
+                <option value="Kediri">Kediri</option>
+                <option value="Tulungagung">Tulungagung</option>
+                <option value="Madiun">Madiun</option>
+                <option value="Ponorogo">Ponorogo</option>
+                <option value="Nganjuk">Nganjuk</option>
+                <option value="Trenggalek">Trenggalek</option>
+                <option value="Magetan">Magetan</option>
+                <option value="Ngawi">Ngawi</option>
+              </optgroup>
+              <optgroup label="Wilayah II (Tapal Kuda & Pantura Timur)">
+                <option value="Probolinggo">Probolinggo</option>
+                <option value="Lumajang">Lumajang</option>
+                <option value="Jember">Jember</option>
+                <option value="Situbondo">Situbondo</option>
+                <option value="Bondowoso">Bondowoso</option>
+                <option value="Banyuwangi">Banyuwangi</option>
+              </optgroup>
+              <optgroup label="Wilayah IV (Jombang & Pantura Barat)">
+                <option value="Jombang">Jombang</option>
+                <option value="Lamongan">Lamongan</option>
+                <option value="Bojonegoro">Bojonegoro</option>
+                <option value="Tuban">Tuban</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tanggal">Tanggal Berangkat</label>
+            <input id="tanggal" name="tanggal" type="date" required>
+          </div>
+          <div class="field">
+            <label for="jam">Jam</label>
+            <input id="jam" name="jam" type="time" value="08:00" required>
+          </div>
+          <div class="field">
+            <label for="jumlah">Penumpang</label>
+            <select id="jumlah" name="jumlah">
+              <option value="1" selected>1 Orang</option>
+              <option value="2">2 Orang</option>
+              <option value="3">3 Orang</option>
+              <option value="4">4 Orang</option>
+              <option value="5">5 Orang</option>
+              <option value="6">6 Orang</option>
+              <option value="7">7 Orang</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-foot">
+          <div class="search-note">
+            <span>💡</span>
+            <span id="tab-note">Paket Reguler: Datang ke garasi keberangkatan &amp; berbagi mobil searah.</span>
+          </div>
+          <button class="btn btn--primary btn-cari" type="submit">
+            🔍 Cari Perjalanan
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Paket Layanan (Figma Cards) -->
+  <div class="wrap">
+    <section class="section" id="paket">
+      <div class="section__header">
+        <h2 class="section__title">Pilihan Paket Perjalanan</h2>
+        <p class="section__subtitle">Pilih fleksibilitas perjalanan sesuai kebutuhan Anda, mulai dari ekonomis hingga kenyamanan privat.</p>
+      </div>
+
+      <div class="grid--3">
+        <!-- Paket 1: Reguler -->
+        <article class="card--paket">
+          <div class="card--paket__badge">
+            <span class="pill pill--orange">Paling Hemat</span>
+          </div>
+          <div class="card--paket__img-wrap">
+            <img class="card--paket__img" src="assets/paket-reguler.png" alt="Paket Reguler SeArah">
+          </div>
+          <div class="card--paket__body">
+            <h3 class="card--paket__title">REGULER</h3>
+            <p class="card--paket__desc">Layanan shuttle garasi ke garasi dengan jadwal tepat dan armada mitra terawat.</p>
+            
+            <div class="card--paket__tags">
+              <span class="pill pill--gray">Garasi ke Garasi</span>
+              <span class="pill pill--gray">Jalan Biasa (+Tol)</span>
+              <span class="pill pill--green">Berbagi Searah</span>
+            </div>
+
+            <ul class="paket-fitur">
+              <li><span class="check">✓</span> Mobil &amp; driver ditentukan sistem secara acak</li>
+              <li><span class="check">✓</span> Naik &amp; turun di titik garasi resmi</li>
+              <li><span class="check">✓</span> Berbagi mobil dengan penumpang searah</li>
+              <li><span class="check">✓</span> Default jalan biasa (opsi tol tambahan)</li>
+              <li><span class="check">✓</span> Dilindungi asuransi perjalanan resmi</li>
+            </ul>
+
+            <div class="card--paket__price">
+              <div class="card--paket__price-lbl">Tarif Perjalanan</div>
+              <div class="card--paket__price-val">Segera Diumumkan <span class="badge-pending">Tahap Draf</span></div>
+            </div>
+
+            <button class="btn btn--primary btn--block btn--lg btn-pilih-paket" data-paket="reguler">
+              Pilih Reguler
+            </button>
+          </div>
+        </article>
+
+        <!-- Paket 2: Door to Door -->
+        <article class="card--paket">
+          <div class="card--paket__badge">
+            <span class="pill pill--green">Favorit Penumpang</span>
+          </div>
+          <div class="card--paket__img-wrap">
+            <img class="card--paket__img" src="assets/paket-d2d.png" alt="Paket Door to Door SeArah">
+          </div>
+          <div class="card--paket__body">
+            <h3 class="card--paket__title">DOOR TO DOOR</h3>
+            <p class="card--paket__desc">Jemput di depan pintu rumah atau titik favorit, antar langsung sampai lokasi tujuan.</p>
+            
+            <div class="card--paket__tags">
+              <span class="pill pill--gray">Jemput di Lokasi</span>
+              <span class="pill pill--gray">Bebas Pilih Mobil</span>
+              <span class="pill pill--green">Berbagi Searah</span>
+            </div>
+
+            <ul class="paket-fitur">
+              <li><span class="check">✓</span> Tentukan titik jemput &amp; titik antar sendiri</li>
+              <li><span class="check">✓</span> Bebas pilih mobil (prioritas yang sudah berisi)</li>
+              <li><span class="check">✓</span> Pilihan jalan biasa atau jalan tol</li>
+              <li><span class="check">✓</span> Penumpang searah digabung efisien</li>
+              <li><span class="check">✓</span> Driver terverifikasi &amp; asuransi penuh</li>
+            </ul>
+
+            <div class="card--paket__price">
+              <div class="card--paket__price-lbl">Tarif Perjalanan</div>
+              <div class="card--paket__price-val">Segera Diumumkan <span class="badge-pending">Tahap Draf</span></div>
+            </div>
+
+            <button class="btn btn--secondary btn--block btn--lg btn-pilih-paket" data-paket="door-to-door">
+              Pilih Door to Door
+            </button>
+          </div>
+        </article>
+
+        <!-- Paket 3: Private -->
+        <article class="card--paket">
+          <div class="card--paket__badge">
+            <span class="pill pill--orange">VIP Eksklusif</span>
+          </div>
+          <div class="card--paket__img-wrap">
+            <img class="card--paket__img" src="assets/paket-private.png" alt="Paket Private SeArah">
+          </div>
+          <div class="card--paket__body">
+            <h3 class="card--paket__title">PRIVATE SHUTTLE</h3>
+            <p class="card--paket__desc">Satu mobil khusus untuk Anda atau rombongan Anda tanpa penumpang lain. Bebas &amp; leluasa.</p>
+            
+            <div class="card--paket__tags">
+              <span class="pill pill--gray">Eksklusif 1 Mobil</span>
+              <span class="pill pill--gray">Bebas Pilih Driver</span>
+              <span class="pill pill--orange">Default Tol</span>
+            </div>
+
+            <ul class="paket-fitur">
+              <li><span class="check">✓</span> Satu mobil penuh tanpa berbagi penumpang lain</li>
+              <li><span class="check">✓</span> Bebas pilih mobil &amp; profil driver dengan rating</li>
+              <li><span class="check">✓</span> Titik jemput &amp; antar fleksibel sesuka hati</li>
+              <li><span class="check">✓</span> Default jalan tol prioritas perjalanan cepat</li>
+              <li><span class="check">✓</span> Proteksi asuransi &amp; layanan VIP prima</li>
+            </ul>
+
+            <div class="card--paket__price">
+              <div class="card--paket__price-lbl">Tarif Perjalanan</div>
+              <div class="card--paket__price-val">Segera Diumumkan <span class="badge-pending">Tahap Draf</span></div>
+            </div>
+
+            <button class="btn btn--primary btn--block btn--lg btn-pilih-paket" data-paket="private">
+              Pilih Private
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Kenapa SeArah Section (6 Value Cards) -->
+    <section class="section" id="kenapa">
+      <div class="section__header">
+        <h2 class="section__title">Kenapa Memilih SeArah?</h2>
+        <p class="section__subtitle">Komitmen kami untuk memberikan standar keamanan, transparansi, dan kenyamanan perjalanan antar kota terbaik.</p>
+      </div>
+
+      <div class="fitur-grid">
+        <div class="fitur">
+          <div class="fitur__icon">🛡️</div>
+          <div>
+            <h3>Asuransi Perjalanan</h3>
+            <p>Setiap tiket dilindungi asuransi perjalanan resmi untuk proteksi keselamatan dan kenyamanan menyeluruh.</p>
+          </div>
+        </div>
+
+        <div class="fitur">
+          <div class="fitur__icon">✅</div>
+          <div>
+            <h3>Driver Terverifikasi</h3>
+            <p>KTP, SIM, dan kelayakan pengemudi diperiksa ketat oleh admin sebelum diizinkan menerima pesanan.</p>
+          </div>
+        </div>
+
+        <div class="fitur">
+          <div class="fitur__icon">🪪</div>
+          <div>
+            <h3>Identitas Driver di HP</h3>
+            <p>Nama, foto profil, tipe mobil, dan nomor plat pengemudi tampil transparan di aplikasi Anda saat perjalanan.</p>
+          </div>
+        </div>
+
+        <div class="fitur">
+          <div class="fitur__icon">⭐</div>
+          <div>
+            <h3>Rating &amp; Ulasan</h3>
+            <p>Nilai pengalaman perjalanan Anda setelah sampai tujuan untuk menjaga kualitas dan integritas layanan.</p>
+          </div>
+        </div>
+
+        <div class="fitur">
+          <div class="fitur__icon">👥</div>
+          <div>
+            <h3>Berbagi Mobil Searah</h3>
+            <p>Penumpang beda tujuan namun searah (misal Kepanjen → Malang &amp; Surabaya) digabung cerdas untuk efisiensi.</p>
+          </div>
+        </div>
+
+        <div class="fitur">
+          <div class="fitur__icon">🧾</div>
+          <div>
+            <h3>Invoice Otomatis</h3>
+            <p>Invoice resmi terunduh otomatis setelah pesanan dikonfirmasi dan dapat diunduh ulang kapan saja.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  /* Set default tanggal ke hari ini */
+  const dateInput = document.getElementById("tanggal");
+  const today = new Date().toISOString().split("T")[0];
+  dateInput.min = today;
+  dateInput.value = today;
+
+  /* Tab switching */
+  let selectedPaket = "reguler";
+  const tabs = document.querySelectorAll(".tabs .tab");
+  const tabNotes = {
+    reguler: "Paket Reguler: Datang ke garasi keberangkatan & berbagi mobil searah.",
+    "door-to-door": "Paket Door to Door: Dijemput di depan pintu rumah & diantar ke alamat tujuan.",
+    private: "Paket Private: Satu mobil khusus rombongan Anda, bebas pilih driver & default via tol."
+  };
+
+  function selectTab(p) {
+    selectedPaket = p;
+    tabs.forEach((t) => t.setAttribute("aria-selected", t.dataset.paket === p));
+    const noteEl = document.getElementById("tab-note");
+    if (noteEl) noteEl.textContent = tabNotes[p] || "";
+  }
+
+  tabs.forEach((t) => t.addEventListener("click", () => selectTab(t.dataset.paket)));
+
+  /* Form submit */
+  document.getElementById("search-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const asal = document.getElementById("asal").value.trim();
+    const tujuan = document.getElementById("tujuan").value.trim();
+    const tanggal = document.getElementById("tanggal").value;
+    const jam = document.getElementById("jam").value;
+    const jumlah = document.getElementById("jumlah").value;
+
+    if (!asal || !tujuan) {
+      UI.toast("Silakan isi kota asal dan tujuan.", "warning");
+      return;
+    }
+    if (asal.toLowerCase() === tujuan.toLowerCase()) {
+      UI.toast("Kota asal dan tujuan tidak boleh sama.", "warning");
+      return;
+    }
+
+    const params = new URLSearchParams({
+      asal,
+      tujuan,
+      tanggal,
+      jam,
+      jumlah,
+      paket: selectedPaket
+    });
+
+    location.href = `pages/booking.html?${params.toString()}`;
+  });
+
+  /* Quick pick tombol pada kartu paket */
+  document.querySelectorAll(".btn-pilih-paket").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const p = btn.dataset.paket;
+      selectTab(p);
+      const asal = document.getElementById("asal").value.trim() || "Kepanjen";
+      const tujuan = document.getElementById("tujuan").value.trim() || "Surabaya";
+      const tanggal = document.getElementById("tanggal").value || today;
+      const jam = document.getElementById("jam").value || "08:00";
+      const jumlah = document.getElementById("jumlah").value || "1";
+
+      const params = new URLSearchParams({ asal, tujuan, tanggal, jam, jumlah, paket: p });
+      location.href = `pages/booking.html?${params.toString()}`;
+    });
+  });
+</script>
+</body>
+</html>

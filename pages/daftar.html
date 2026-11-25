@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daftar Akun Baru — SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>Daftar Akun SeArah</h1>
+      <p class="sub">Pilih peran akun yang ingin Anda daftarkan</p>
+
+      <div class="role-grid">
+        <a href="daftar-penumpang.html" class="role-card" id="opt-penumpang">
+          <div class="role-card__icon">👤</div>
+          <div class="role-card__title">Penumpang</div>
+          <div class="role-card__desc">Pesan perjalanan travel &amp; shuttle antar kota dengan aman, nyaman, dan cepat.</div>
+        </a>
+
+        <a href="daftar-pengemudi.html" class="role-card" id="opt-pengemudi">
+          <div class="role-card__icon">🚗</div>
+          <div class="role-card__title">Pengemudi</div>
+          <div class="role-card__desc">Bergabung sebagai mitra pengemudi resmi SeArah dan terima pesanan perjalanan.</div>
+        </a>
+      </div>
+
+      <p class="auth-alt" style="margin-top:28px">
+        Sudah memiliki akun? <a href="masuk.html">Masuk di sini</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+  UI.navbar("guest");
+  UI.footer();
+</script>
+</body>
+</html>

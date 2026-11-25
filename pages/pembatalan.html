@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pembatalan Pesanan — SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/flow.css">
+<link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <div class="flow-wrap">
+    <div class="flow-card" style="border-top:4px solid var(--color-danger)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:32px">🚫</span>
+        <div>
+          <h1>Batalkan Pesanan Shuttle</h1>
+          <p style="font-size:var(--text-sm);color:var(--color-muted);margin:0">
+            Sistem pembatalan transparan &amp; fleksibel (mengikuti pola Gojek &amp; Dokumen 5.6).
+          </p>
+        </div>
+      </div>
+
+      <!-- Ringkasan Singkat Pesanan yang akan dibatalkan -->
+      <div style="background:var(--color-gray-light);padding:14px;border-radius:10px;margin:20px 0;font-size:var(--text-sm)">
+        <div style="display:flex;justify-content:space-between"><span>Nomor Pesanan:</span> <b id="cancel-oid">-</b></div>
+        <div style="display:flex;justify-content:space-between"><span>Rute:</span> <b id="cancel-route">-</b></div>
+        <div style="display:flex;justify-content:space-between"><span>Driver:</span> <b id="cancel-driver">-</b></div>
+        <div style="display:flex;justify-content:space-between"><span>Status Saat Ini:</span> <b id="cancel-cur-status" style="color:var(--color-navy)">-</b></div>
+      </div>
+
+      <!-- Kotak Kebijakan Pembatalan (Dokumen 5.6) -->
+      <div id="policy-notice" style="background:#fffbeb;border:1px solid #fde68a;padding:14px;border-radius:10px;font-size:var(--text-xs);color:#92400e;line-height:1.6;margin-bottom:20px">
+        <!-- Injected by script based on current stage -->
+      </div>
+
+      <!-- Form Alasan Pembatalan -->
+      <div class="field">
+        <label for="reason-select">Pilih Alasan Utama Pembatalan</label>
+        <select id="reason-select" style="padding:12px;font-size:var(--text-sm)">
+          <option value="Berubah rencana mendadak">Berubah rencana mendadak</option>
+          <option value="Salah pilih paket atau jam">Salah memilih jadwal / paket</option>
+          <option value="Driver terlalu lama menuju lokasi">Estimasi waktu tiba driver terlalu lama</option>
+          <option value="Menemukan transportasi alternatif">Menemukan transportasi alternatif lain</option>
+          <option value="Kendala darurat keluarga">Kendala darurat keluarga</option>
+          <option value="Lainnya">Alasan lainnya</option>
+        </select>
+      </div>
+
+      <div class="field" style="margin-top:14px">
+        <label for="reason-detail">Catatan Tambahan (Opsional)</label>
+        <textarea id="reason-detail" rows="2" placeholder="Tuliskan catatan tambahan jika ada..."></textarea>
+      </div>
+
+      <div class="flow-actions" style="margin-top:24px">
+        <a class="btn btn--ghost" href="pembayaran.html">Kembali ke Pesanan</a>
+        <button class="btn btn--danger btn--lg" id="btn-confirm-cancel">
+          Ya, Konfirmasi Pembatalan
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  const b = JSON.parse(sessionStorage.getItem("searah_booking") || "null");
+
+  if (!b) {
+    document.querySelector(".flow-card").innerHTML = `
+      <div style="text-align:center;padding:32px">
+        <h2>Pesanan Tidak Ditemukan</h2>
+        <a class="btn btn--primary" href="../index.html" style="margin-top:16px">Kembali ke Beranda</a>
+      </div>`;
+  } else {
+    const q = b.query || {};
+    document.getElementById("cancel-oid").textContent = `#${b.id}`;
+    document.getElementById("cancel-route").textContent = `${q.asal} → ${q.tujuan}`;
+    document.getElementById("cancel-driver").textContent = `${b.driver} (${b.mobil})`;
+    document.getElementById("cancel-cur-status").textContent = b.status.toUpperCase();
+
+    const noticeEl = document.getElementById("policy-notice");
+    if (b.status === "driver menuju lokasi") {
+      noticeEl.innerHTML = `
+        <b>⚠️ Peringatan Pembatalan Terlambat (Dokumen 5.6):</b><br>
+        Driver saat ini sudah bergerak menuju titik penjemputan Anda. Pembatalan masih diperbolehkan dan driver akan segera diberitahu untuk kembali tersedia bagi penumpang lain.
+      `;
+    } else {
+      noticeEl.innerHTML = `
+        <b>ℹ️ Ketentuan Pembatalan (Dokumen 5.6):</b><br>
+        Sebelum driver tiba atau sebelum perjalanan dimulai, pembatalan diperbolehkan langsung tanpa konsekuensi biaya. Driver yang ditugaskan akan otomatis menerima pemberitahuan dan kembali tersedia untuk menerima pesanan baru.
+      `;
+    }
+
+    document.getElementById("btn-confirm-cancel").addEventListener("click", () => {
+      const reason = document.getElementById("reason-select").value;
+      const detail = document.getElementById("reason-detail").value.trim();
+      const fullReason = detail ? `${reason} (${detail})` : reason;
+
+      UI.modal({
+        title: "Batalkan Pesanan Ini?",
+        content: `Pesanan shuttle #${b.id} Anda akan dibatalkan permanen.<br><br><b>Alasan:</b> ${fullReason}`,
+        confirmText: "Konfirmasi Batalkan",
+        cancelText: "Batal",
+        onConfirm: async () => {
+          await api.cancelBooking({
+            bookingId: b.id,
+            alasan: fullReason,
+            oleh: "penumpang"
+          });
+          b.status = "dibatalkan";
+          sessionStorage.setItem("searah_booking", JSON.stringify(b));
+          UI.toast("Pesanan telah dibatalkan.", "info");
+          setTimeout(() => {
+            location.href = "pembayaran.html";
+          }, 300);
+        }
+      });
+    });
+  }
+</script>
+</body>
+</html>

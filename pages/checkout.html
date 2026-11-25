@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout Pesanan — SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/flow.css">
+<link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <div class="flow-wrap">
+    <!-- Stepper 3 Tahap -->
+    <div id="stepper" style="margin-top:20px"></div>
+
+    <!-- Ringkasan Perjalanan -->
+    <div class="flow-card">
+      <h1>Checkout Perjalanan</h1>
+      <p style="font-size:var(--text-sm);color:var(--color-muted);margin-bottom:16px">
+        Periksa kembali rincian perjalanan shuttle Anda sebelum membuat pesanan resmi.
+      </p>
+
+      <div id="trip-details">
+        <!-- Injected by script -->
+      </div>
+    </div>
+
+    <!-- Data Diri Pemesan (Dokumen 5.5) -->
+    <div class="flow-card" id="user-section">
+      <!-- Injected by script based on auth state -->
+    </div>
+
+    <!-- Actions -->
+    <div class="flow-actions" style="margin-top:0;margin-bottom:32px">
+      <a class="btn btn--ghost" href="booking.html" id="btn-back">‹ Kembali ke Pilihan Mobil</a>
+      <button class="btn btn--primary btn--lg" id="btn-submit-order">
+        Konfirmasi Pesanan &amp; Lanjut ›
+      </button>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  const stepperEl = document.getElementById("stepper");
+  stepperEl.innerHTML = UI.stepper(["Pencarian", "Checkout & Data", "Konfirmasi & Tiket"], 1);
+
+  const trip = JSON.parse(sessionStorage.getItem("searah_trip") || "null");
+  const detailsEl = document.getElementById("trip-details");
+  const userSecEl = document.getElementById("user-section");
+  const submitBtn = document.getElementById("btn-submit-order");
+
+  if (!trip) {
+    detailsEl.innerHTML = `
+      <div style="text-align:center;padding:32px">
+        <p style="color:var(--color-danger);font-weight:700">Pilihan perjalanan tidak ditemukan atau sesi telah berakhir.</p>
+        <a href="../index.html" class="btn btn--primary" style="margin-top:12px">Mulai Pencarian Baru</a>
+      </div>`;
+    submitBtn.disabled = true;
+  } else {
+    const q = trip.query || {};
+    const paketName = trip.paket === "door-to-door" ? "Door to Door" : trip.paket === "private" ? "Private Eksklusif" : "Reguler (Garasi ke Garasi)";
+
+    detailsEl.innerHTML = `
+      <div class="flow-row">
+        <span class="label">Rute Perjalanan</span>
+        <b class="val">${q.asal} → ${q.tujuan}</b>
+      </div>
+      <div class="flow-row">
+        <span class="label">Jadwal Keberangkatan</span>
+        <b class="val">${q.tanggal || "Hari Ini"} · Pukul ${q.jam || "08:00"} WIB</b>
+      </div>
+      <div class="flow-row">
+        <span class="label">Jumlah Penumpang</span>
+        <b class="val">${q.jumlah || 1} Orang</b>
+      </div>
+      <div class="flow-row">
+        <span class="label">Paket Layanan</span>
+        <b class="val">${paketName}</b>
+      </div>
+      <div class="flow-row">
+        <span class="label">Pilihan Jenis Jalan</span>
+        <b class="val">${trip.jalan === "tol" ? "Via Tol (Bebas Hambatan)" : "Jalan Arteri Biasa"}</b>
+      </div>
+      <div class="flow-row">
+        <span class="label">Proteksi Keamanan (Asuransi)</span>
+        <b class="val">${trip.asuransi === "ya" ? "✅ Termasuk Perlindungan Asuransi" : "❌ Tanpa Asuransi"}</b>
+      </div>
+      ${trip.jemput ? `
+        <div class="flow-row">
+          <span class="label">Titik Penjemputan</span>
+          <b class="val">📍 ${trip.jemput}</b>
+        </div>
+      ` : ""}
+      ${trip.antar ? `
+        <div class="flow-row">
+          <span class="label">Titik Pengantaran</span>
+          <b class="val">🏁 ${trip.antar}</b>
+        </div>
+      ` : ""}
+      <div class="flow-row">
+        <span class="label">Armada &amp; Driver</span>
+        <b class="val">${trip.mobil} (${trip.plat || "-"}) · ${trip.driver}</b>
+      </div>
+      <div class="flow-row" style="background:var(--color-gray-light);padding:12px;border-radius:8px;margin-top:8px">
+        <span class="label" style="font-weight:700">Total Tarif</span>
+        <b class="val" style="color:var(--color-navy)">Segera Diumumkan <span class="badge-pending">Tahap Draf</span></b>
+      </div>
+      <p style="font-size:11px;color:var(--color-muted);margin-top:6px">
+        *Berdasarkan Dokumen Perencanaan 5.5 &amp; 9: Perhitungan tarif &amp; pembayaran ditunda ke tahap berikutnya. Pesanan langsung diproses.
+      </p>
+    `;
+
+    /* Logika Checkout Dokumen Bagian 5.5:
+       1. Belum punya akun: Tampilkan form pendaftaran data diri lengkap (akun dibuat otomatis).
+       2. Punya akun, data diri kosong: Tampilkan form pengisian data diri (nama & telepon).
+       3. Punya akun, data diri lengkap: Tampilkan konfirmasi data diri siap pakai. */
+    const sess = api.getSession();
+    const passProfile = api.getPassenger();
+
+    if (!sess) {
+      /* Kondisi 1: Tamu belum login */
+      userSecEl.innerHTML = `
+        <h2>Data Diri &amp; Pendaftaran Akun</h2>
+        <p style="font-size:var(--text-sm);color:var(--color-muted);margin-bottom:16px">
+          Anda belum masuk. Silakan isi data di bawah ini untuk membuat akun dan pesanan secara otomatis.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="field" style="grid-column:span 2">
+            <label for="nama">Nama Lengkap Penumpang</label>
+            <input id="nama" placeholder="Contoh: Budi Santoso" required>
+          </div>
+          <div class="field">
+            <label for="telepon">Nomor WhatsApp / HP</label>
+            <input id="telepon" placeholder="Contoh: 081234567890" type="tel" required>
+          </div>
+          <div class="field">
+            <label for="username">Username Akun</label>
+            <input id="username" placeholder="Contoh: budi123" required>
+          </div>
+          <div class="field">
+            <label for="email">Alamat Email</label>
+            <input id="email" type="email" placeholder="Contoh: budi@mail.com" required>
+          </div>
+          <div class="field">
+            <label for="password">Password Baru</label>
+            <input id="password" type="password" placeholder="Minimal 6 karakter" required>
+          </div>
+        </div>
+      `;
+    } else if (!passProfile || !passProfile.telepon) {
+      /* Kondisi 2: Login tapi belum melengkapi profil */
+      userSecEl.innerHTML = `
+        <h2>Lengkapi Data Diri</h2>
+        <p style="font-size:var(--text-sm);color:var(--color-muted);margin-bottom:16px">
+          Masuk sebagai <b>${sess.email}</b>. Lengkapi nomor telepon dan nama untuk konfirmasi pesanan.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="field">
+            <label for="nama">Nama Lengkap</label>
+            <input id="nama" value="${sess.name || ''}" placeholder="Nama lengkap" required>
+          </div>
+          <div class="field">
+            <label for="telepon">Nomor WhatsApp / HP</label>
+            <input id="telepon" value="${passProfile?.telepon || ''}" placeholder="08xxxxxxxxxx" type="tel" required>
+          </div>
+        </div>
+      `;
+    } else {
+      /* Kondisi 3: Akun sudah lengkap */
+      userSecEl.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <h2>Data Diri Pemesan</h2>
+          <span class="pill pill--green">✓ Data Terverifikasi</span>
+        </div>
+        <div class="flow-row" style="margin-top:12px">
+          <span class="label">Nama Pemesan</span>
+          <b class="val">${passProfile.nama || sess.name}</b>
+        </div>
+        <div class="flow-row">
+          <span class="label">No. Telepon / WhatsApp</span>
+          <b class="val">${passProfile.telepon}</b>
+        </div>
+        <div class="flow-row">
+          <span class="label">Email Akun</span>
+          <b class="val">${sess.email}</b>
+        </div>
+      `;
+    }
+  }
+
+  /* Submit Order Handler */
+  submitBtn.addEventListener("click", async () => {
+    if (!trip) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Memproses Pesanan...";
+
+    try {
+      let sess = api.getSession();
+
+      /* Handle Kondisi 1: Registrasi tamu */
+      if (!sess) {
+        const nama = document.getElementById("nama")?.value.trim();
+        const telepon = document.getElementById("telepon")?.value.trim();
+        const username = document.getElementById("username")?.value.trim();
+        const email = document.getElementById("email")?.value.trim();
+        const password = document.getElementById("password")?.value;
+
+        if (!nama || !telepon || !username || !email || !password) {
+          throw new Error("Mohon lengkapi seluruh formulir data diri.");
+        }
+        if (!UI.validators.email(email)) {
+          throw new Error("Format email tidak valid.");
+        }
+        if (!UI.validators.phone(telepon)) {
+          throw new Error("Nomor WhatsApp/HP tidak valid (contoh: 081234567890).");
+        }
+        if (password.length < 6) {
+          throw new Error("Password minimal 6 karakter.");
+        }
+
+        await api.register({ email, password, role: "penumpang", name: nama });
+        await api.login({ email, password });
+        await api.savePassenger({ username, nama, telepon });
+        sess = api.getSession();
+      } else {
+        /* Handle Kondisi 2: Simpan telepon/nama jika baru diisi */
+        const namaInput = document.getElementById("nama");
+        const telpInput = document.getElementById("telepon");
+        if (namaInput && telpInput) {
+          const nama = namaInput.value.trim();
+          const telepon = telpInput.value.trim();
+          if (!nama || !telepon) throw new Error("Mohon lengkapi nama dan nomor telepon.");
+          if (!UI.validators.phone(telepon)) throw new Error("Nomor telepon tidak valid.");
+          await api.savePassenger({ username: sess.name || "penumpang", nama, telepon });
+        }
+      }
+
+      /* Buat Booking di Mock API */
+      const bookingData = {
+        ...trip,
+        penumpang_id: sess.id,
+        penumpang: sess.name || sess.email,
+        penumpang_telp: api.getPassenger()?.telepon || "-",
+      };
+
+      const newBooking = await api.createBooking(bookingData);
+      sessionStorage.setItem("searah_booking", JSON.stringify(newBooking));
+
+      UI.toast("Pesanan berhasil dibuat! Mengalihkan ke pembayaran...", "success");
+      setTimeout(() => {
+        location.href = "pembayaran.html";
+      }, 350);
+    } catch (err) {
+      UI.toast(err.message, "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Konfirmasi Pesanan & Lanjut ›";
+    }
+  });
+</script>
+</body>
+</html>

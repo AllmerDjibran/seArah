@@ -1,0 +1,193 @@
+/* =========================================================
+   SeArah — Auth, Registrasi & Verifikasi
+   ========================================================= */
+
+.auth-wrap {
+  min-height: calc(100vh - var(--navbar-height));
+  display: grid;
+  place-items: center;
+  padding: var(--space-8) 0;
+}
+
+.auth-card {
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1.5px solid var(--color-border);
+  padding: var(--space-8);
+  width: min(480px, 100%);
+}
+
+.auth-card h1 {
+  font-size: var(--text-2xl);
+  font-weight: var(--fw-extrabold);
+  text-align: center;
+  color: var(--color-navy);
+  margin-bottom: 4px;
+}
+
+.auth-card .sub {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.auth-card form {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth-alt {
+  text-align: center;
+  font-size: var(--text-sm);
+  margin-top: var(--space-6);
+  color: var(--color-muted);
+}
+
+.auth-alt a {
+  color: var(--color-blue);
+  font-weight: var(--fw-extrabold);
+}
+
+/* Demo quick-fill pill box */
+.demo-accounts {
+  background: var(--color-gray-light);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: 12px;
+  margin-top: var(--space-5);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.demo-pill {
+  cursor: pointer;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  color: var(--color-blue);
+  display: inline-block;
+  margin: 2px 4px 2px 0;
+}
+.demo-pill:hover {
+  background: var(--color-card);
+}
+
+/* Role Selector Cards */
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 480px) {
+  .role-grid { grid-template-columns: 1fr; }
+}
+
+.role-card {
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: var(--space-5);
+  text-align: center;
+  background: var(--color-white);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.role-card:hover {
+  border-color: var(--color-blue);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.role-card.selected {
+  border-color: var(--color-blue);
+  background: var(--color-card);
+  box-shadow: 0 4px 14px rgba(29, 79, 170, 0.15);
+}
+
+.role-card__icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.role-card__title {
+  font-weight: var(--fw-extrabold);
+  font-size: var(--text-base);
+  color: var(--color-navy);
+  margin-bottom: 4px;
+}
+
+.role-card__desc {
+  font-size: 12px;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+/* Multi-step registration */
+.form-page {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  padding-bottom: var(--space-12);
+}
+
+.reg-panel {
+  display: none;
+}
+.reg-panel--active {
+  display: block;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-6);
+  gap: 12px;
+}
+
+/* Status Box Verifikasi */
+.status-box {
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1.5px solid var(--color-border);
+  padding: var(--space-8);
+  text-align: center;
+  width: min(520px, 100%);
+}
+
+.status-box .timer {
+  font-size: 64px;
+  line-height: 1;
+}
+
+.upload-dropzone {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: var(--space-5);
+  text-align: center;
+  background: var(--color-gray-light);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: 6px;
+}
+.upload-dropzone:hover {
+  border-color: var(--color-blue);
+  background: #f8faff;
+}

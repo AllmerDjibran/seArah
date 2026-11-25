@@ -1,0 +1,102 @@
+/* =========================================================
+   SeArah — Design Tokens
+   Sumber: Mockup Figma "SeArah" & Prototipe NusaShuttle
+   ========================================================= */
+
+:root {
+  /* ---------- Warna Utama (Figma) ---------- */
+  --color-navy: #002a77;
+  --color-blue: #1d4faa;
+  --color-card: #f0f5ff;
+  --color-gray: #d9d9d9;
+  --color-gray-light: #f2f6fb;
+  --color-border: #dbe4f0;
+  --color-muted: #5b6b85;
+
+  /* Status & Semantik */
+  --color-success: #12a150;
+  --color-success-bg: #e8f7ee;
+  --color-warning: #ff8a1f;
+  --color-warning-bg: #fff5eb;
+  --color-danger: #d93025;
+  --color-danger-bg: #fde8e7;
+  --color-info: #0b6bf0;
+  --color-info-bg: #eaf2ff;
+
+  /* Latar / gradien navbar & halaman */
+  --color-navbar-start: #16587b;
+  --color-navbar-end: #041128;
+  --color-page-top: #f5eedd;
+  --color-page-bottom: #84b3ce;
+
+  /* Netral */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* ---------- Tipografi ---------- */
+  --font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  /* Skala tipografi */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 2rem;      /* 32px */
+  --text-4xl: clamp(2rem, 4vw, 3rem);   /* 32 -> 48px */
+  --text-5xl: clamp(2.25rem, 5vw, 4rem);/* 36 -> 64px */
+
+  /* Bobot font */
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-extrabold: 800;
+
+  /* Tinggi baris */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* ---------- Radius ---------- */
+  --radius-input: 10px;
+  --radius-btn-sm: 8px;
+  --radius-btn-md: 12px;
+  --radius-btn-lg: 18px;
+  --radius-card-sm: 12px;
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+
+  /* ---------- Spasi ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------- Layout ---------- */
+  --page-max: 1166px;
+  --page-pad: clamp(16px, 4vw, 80px);
+  --navbar-height: 84px;
+
+  /* ---------- Shadow ---------- */
+  --shadow-card: 0 10px 30px rgba(0, 42, 119, 0.12);
+  --shadow-hover: 0 16px 36px rgba(0, 42, 119, 0.18);
+  --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+  /* ---------- Transisi ---------- */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+
+  /* ---------- Z-index ---------- */
+  --z-navbar: 100;
+  --z-floating: 200;
+  --z-dropdown: 300;
+  --z-modal: 500;
+  --z-toast: 1000;
+}
