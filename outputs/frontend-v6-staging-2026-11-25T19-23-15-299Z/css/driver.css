@@ -1,0 +1,359 @@
+/* =========================================================
+   SeArah — Driver Dashboard & Location Tracking Styles
+   ========================================================= */
+
+/* Driver Dashboard Layout */
+.drv-dashboard {
+  max-width: 920px;
+  margin: 24px auto 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Driver Profile Header Card */
+.drv-header-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 24px;
+  background: linear-gradient(135deg, #0f2042 0%, #1e3a8a 100%);
+  border-radius: var(--radius-card);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 32, 66, 0.3);
+}
+
+.drv-header-card .drv-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.15);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.drv-header-card .drv-meta {
+  flex: 1;
+  min-width: 200px;
+}
+
+.drv-header-card h1 {
+  margin: 0;
+  font-size: var(--text-xl);
+  color: #ffffff;
+}
+
+.drv-header-card .drv-subtitle {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.75);
+  margin: 4px 0 8px;
+}
+
+.drv-stats-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.drv-stat-pill {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Toggle Status Online/Offline */
+.drv-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.drv-toggle-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.drv-toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.drv-toggle.is-online {
+  background: #22c55e;
+  border-color: #16a34a;
+}
+
+.drv-toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.drv-toggle.is-online::after {
+  transform: translateX(24px);
+}
+
+/* Quick Action Grid */
+.drv-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.drv-action-card {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: var(--color-navy);
+}
+
+.drv-action-card:hover {
+  border-color: var(--color-blue);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+}
+
+.drv-action-card .drv-action-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.drv-action-card .drv-action-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.drv-action-card .drv-action-desc {
+  font-size: 11px;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+/* Order Cards */
+.drv-order-card {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  transition: all 0.2s;
+}
+
+.drv-order-card:hover {
+  border-color: var(--color-blue);
+  box-shadow: var(--shadow-soft);
+}
+
+.drv-order-card .drv-order-route {
+  font-size: var(--text-base);
+  font-weight: 800;
+  color: var(--color-navy);
+}
+
+.drv-order-card .drv-order-meta {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+.drv-order-card .drv-order-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* Location Tracking Pulsing Dot */
+.loc-pulse-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.loc-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  position: relative;
+}
+
+.loc-pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.3);
+  animation: locPulse 1.8s infinite;
+}
+
+@keyframes locPulse {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.loc-pulse-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.loc-pulse-label.is-off {
+  color: var(--color-muted);
+}
+
+.loc-pulse-dot.is-off {
+  background: #94a3b8;
+}
+
+.loc-pulse-dot.is-off::before {
+  display: none;
+}
+
+/* Driver Live Map Container */
+.drv-live-map-wrap {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  border-radius: var(--radius-card-sm);
+  overflow: hidden;
+  border: 1.5px solid var(--color-border);
+  background: #e2e8f0;
+  touch-action: none !important;
+}
+
+.drv-live-map-wrap .drv-map-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background: rgba(15, 32, 66, 0.92);
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* Perjalanan Aktif Driver */
+.drv-active-trip {
+  background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+  border-radius: var(--radius-card);
+  padding: 20px 24px;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(4, 120, 87, 0.3);
+}
+
+.drv-active-trip h2 {
+  color: #ffffff;
+  margin: 0 0 12px;
+  font-size: var(--text-lg);
+}
+
+.trip-info-line {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 4px;
+}
+
+/* Driver Edit Form */
+.drv-edit-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .drv-edit-section {
+    grid-template-columns: 1fr;
+  }
+  .drv-actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .drv-header-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .drv-toggle-wrap {
+    margin-left: 0;
+    margin-top: 12px;
+  }
+}
+
+/* Vehicle Info Card */
+.drv-vehicle-card {
+  background: var(--color-gray-light);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-card-sm);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.drv-vehicle-card .vehicle-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--color-navy);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.drv-vehicle-info h3 {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--color-navy);
+}
+
+.drv-vehicle-info p {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 2px 0 0;
+}

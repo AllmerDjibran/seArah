@@ -76,16 +76,18 @@
       </div>
     </div>
   </div>
-<section class="auth-card" id="app" style="max-width:540px;margin:24px auto"></section></main>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script src="register.js"></script>
+<script>
+  Register.init({
+    role: "penumpang",
+    steps: ["Akun & Password", "Data Diri"]
+  });
+</script>
 </body>
 </html>

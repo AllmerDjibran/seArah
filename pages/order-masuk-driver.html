@@ -20,17 +20,167 @@
 
 <div id="navbar-slot"></div>
 
-<main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+<main class="wrap">
+  <div class="drv-dashboard">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div>
+        <h1 style="margin:0">📥 Pesanan Masuk Siap Diterima</h1>
+        <p style="color:var(--color-muted);font-size:var(--text-sm);margin:4px 0 0">Pilih dan konfirmasi perjalanan yang sesuai dengan jadwal armada Anda.</p>
+      </div>
+      <a href="dashboard-pengemudi.html" class="btn btn--ghost btn--sm">← Kembali ke Dashboard</a>
+    </div>
+
+    <!-- Filter & Summary Bar -->
+    <div class="flow-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span style="font-weight:700;font-size:13px;color:var(--color-navy)">Filter Paket:</span>
+        <select id="filter-paket" style="padding:8px 14px;border-radius:8px;border:1.5px solid var(--color-border);font-size:13px;font-family:Montserrat">
+          <option value="all">Semua Paket Layanan</option>
+          <option value="Reguler">Reguler (Garasi ke Garasi)</option>
+          <option value="Door to Door">Door to Door (Jemput Rumah)</option>
+          <option value="Private">Private Eksklusif</option>
+        </select>
+      </div>
+      <span class="pill pill--blue" id="order-count-badge" style="font-size:12px;padding:6px 14px">5 Pesanan Siap</span>
+    </div>
+
+    <!-- Peta Interaktif Sebaran Penjemputan -->
+    <div class="flow-card">
+      <h2>🗺️ Peta Titik Penjemputan Pesanan</h2>
+      <p style="font-size:12px;color:var(--color-muted);margin:2px 0 10px">Klik marker untuk melihat ringkasan rute dan jumlah penumpang.</p>
+      <div class="drv-live-map-wrap" style="height:320px">
+        <div id="pickup-map" style="width:100%;height:100%;z-index:1"></div>
+      </div>
+    </div>
+
+    <!-- Daftar Kartu Pesanan -->
+    <div id="order-list" style="display:flex;flex-direction:column;gap:14px">
+      <!-- Injected -->
+    </div>
+  </div>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
-
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script src="../js/map-service.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  // Alur khusus pengemudi
+  if (!UI.requireDriver()) throw new Error("redirect");
+
+  const s = api.getSession();
+  if (!s || s.role !== "pengemudi") {
+    UI.toast("Silakan masuk sebagai pengemudi.", "warning");
+    setTimeout(() => { location.href = "masuk.html"; }, 500);
+  }
+
+  const orders = [
+    { id: "ord_1", rute: "Kepanjen → Surabaya", asal: "Kepanjen", tujuan: "Surabaya", jam: "08:00 WIB", tanggal: "25 Nov 2026", pax: 3, paket: "Reguler", jemput: "Garasi Utama SeArah Kepanjen", drop: "Garasi SeArah Waru / Surabaya", penumpang: "Rizky Ramadhan (+2 rombongan)", harga: "Rp 255.000", catatan: "Barang bawaan 2 koper sedang" },
+    { id: "ord_2", rute: "Kepanjen → Malang", asal: "Kepanjen", tujuan: "Malang", jam: "09:30 WIB", tanggal: "25 Nov 2026", pax: 2, paket: "Door to Door", jemput: "Jl. Panglima Sudirman No. 45, Kepanjen", drop: "Jl. Ijen No. 10, Malang", penumpang: "Dina Rahmawati", harga: "Rp 110.000", catatan: "Titik jemput depan indomaret" },
+    { id: "ord_3", rute: "Malang → Surabaya", asal: "Malang", tujuan: "Surabaya", jam: "13:00 WIB", tanggal: "25 Nov 2026", pax: 1, paket: "Private", jemput: "Jl. Veteran No. 2, Klojen, Malang", drop: "Bandara Juanda Terminal 1", penumpang: "Bambang Haryanto (Private Charter)", harga: "Rp 350.000", catatan: "Penerbangan jam 16:30, mohon tepat waktu" },
+    { id: "ord_4", rute: "Surabaya → Kepanjen", asal: "Surabaya", tujuan: "Kepanjen", jam: "15:00 WIB", tanggal: "25 Nov 2026", pax: 4, paket: "Reguler", jemput: "Terminal Purabaya (Bungurasih)", drop: "Garasi Utama Kepanjen", penumpang: "Siti Aminah (+3 rombongan)", harga: "Rp 340.000", catatan: "Siap jemput di shelter bus antar-kota" },
+    { id: "ord_5", rute: "Blitar → Surabaya", asal: "Blitar", tujuan: "Surabaya", jam: "06:00 WIB", tanggal: "26 Nov 2026", pax: 2, paket: "Door to Door", jemput: "Jl. Merdeka No. 20, Blitar", drop: "Stasiun Gubeng Surabaya", penumpang: "Agus Wijaya", harga: "Rp 240.000", catatan: "Bawa kardus oleh-oleh khas Blitar" },
+  ];
+
+  let pickupMap = null;
+  setTimeout(() => {
+    pickupMap = L.map("pickup-map", {
+      center: [-7.9826, 112.6308], zoom: 10,
+      zoomControl: true, scrollWheelZoom: true, touchZoom: true,
+      wheelDebounceTime: 40, wheelPxPerZoomLevel: 60
+    });
+    MapService.createTileLayer().addTo(pickupMap);
+
+    orders.forEach((o) => {
+      const coord = MapService.getCityCoord(o.asal);
+      const marker = L.marker([coord.lat, coord.lng]).addTo(pickupMap);
+      marker.bindPopup(`
+        <div style="font-family:Montserrat,sans-serif">
+          <b style="color:#0f2042">${o.rute}</b><br>
+          <span style="font-size:11px;color:#2563eb">${o.paket}</span><br>
+          <small>🕐 ${o.jam} · 👥 ${o.pax} Penumpang</small><br>
+          <div style="margin-top:4px;font-weight:700;color:#16a34a">${o.harga}</div>
+        </div>
+      `);
+    });
+    pickupMap.invalidateSize();
+  }, 100);
+
+  function renderOrders(filter = "all") {
+    const filtered = filter === "all" ? orders : orders.filter(o => o.paket === filter);
+    document.getElementById("order-count-badge").textContent = `${filtered.length} Pesanan Siap`;
+    
+    const listEl = document.getElementById("order-list");
+    if (!filtered.length) {
+      listEl.innerHTML = `<div class="flow-card" style="text-align:center;padding:30px;color:var(--color-muted)">Tidak ada pesanan yang sesuai dengan filter layanan yang dipilih.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map((o, idx) => `
+      <div class="flow-card drv-order-card" style="flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;width:100%">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="drv-order-route" style="font-size:var(--text-lg)">${o.rute}</span>
+              <span class="pill pill--${o.paket === 'Reguler' ? 'blue' : o.paket === 'Private' ? 'orange' : 'green'}">${o.paket}</span>
+            </div>
+            <div class="drv-order-meta" style="margin-top:6px">
+              📅 Tanggal: <b>${o.tanggal}</b> · 🕐 Jam: <b>${o.jam}</b><br>
+              👥 Penumpang: <b>${o.penumpang}</b> (${o.pax} Kursi)<br>
+              📍 Titik Jemput: <b>${o.jemput}</b><br>
+              🏁 Titik Antar: <b>${o.drop}</b><br>
+              💬 Catatan Penumpang: <i>"${o.catatan}"</i>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:11px;color:var(--color-muted)">Estimasi Pendapatan:</div>
+            <div style="font-size:var(--text-xl);font-weight:800;color:var(--color-navy)">${o.harga}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--color-border);padding-top:12px;width:100%">
+          <button class="btn btn--primary" onclick="acceptOrder('${o.id}', ${idx})">✓ Terima &amp; Jalankan Perjalanan</button>
+          <button class="btn btn--ghost" onclick="focusOnMap('${o.asal}', '${o.tujuan}')">🗺️ Lihat di Peta</button>
+          <button class="btn btn--ghost" style="color:var(--color-danger);border-color:var(--color-danger)" onclick="rejectOrder(${idx})">✕ Tolak Pesanan</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  window.acceptOrder = function(id, idx) {
+    const o = orders[idx];
+    UI.toast(`✅ Perjalanan ${o.rute} (${o.penumpang}) berhasil diterima! Mengalihkan ke navigasi perjalanan...`, "success");
+    orders.splice(idx, 1);
+    renderOrders(document.getElementById("filter-paket").value);
+    setTimeout(() => {
+      location.href = "perjalanan-aktif-driver.html";
+    }, 1200);
+  };
+
+  window.rejectOrder = function(idx) {
+    orders.splice(idx, 1);
+    UI.toast("Pesanan ditolak. Sistem mencarikan driver mitra lain.", "info");
+    renderOrders(document.getElementById("filter-paket").value);
+  };
+
+  window.focusOnMap = function(asal, tujuan) {
+    const ca = MapService.getCityCoord(asal);
+    const ct = MapService.getCityCoord(tujuan);
+    if (pickupMap) {
+      pickupMap.fitBounds([[ca.lat, ca.lng], [ct.lat, ct.lng]], { padding: [40, 40] });
+      window.scrollTo({ top: document.getElementById("pickup-map").offsetTop - 100, behavior: 'smooth' });
+    }
+  };
+
+  document.getElementById("filter-paket").addEventListener("change", (e) => {
+    renderOrders(e.target.value);
+  });
+
+  renderOrders();
+</script>
 </body>
 </html>

@@ -55,22 +55,22 @@
             <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
               <div class="field">
                 <label for="ktp">Foto KTP Asli (e-KTP)</label>
-                <div class="upload-dropzone">
+                <div class="upload-dropzone" onclick="document.getElementById('ktp').click()">
                   <div style="font-size:28px">🪪</div>
                   <div style="font-size:13px;font-weight:700;color:var(--color-navy);margin-top:4px" id="ktp-lbl">Pilih atau Seret Foto KTP</div>
                   <div style="font-size:11px;color:var(--color-muted)">Format JPG, PNG, atau PDF (maks. 5MB)</div>
                 </div>
-                <input id="ktp" name="ktp" type="file" accept="image/*,application/pdf" style="display:none">
+                <input id="ktp" name="ktp" type="file" accept="image/*,application/pdf" style="display:none" onchange="updateFileLabel(this, 'ktp-lbl')">
               </div>
 
               <div class="field">
                 <label for="sim">Foto SIM Aktif (SIM A / B Umum)</label>
-                <div class="upload-dropzone">
+                <div class="upload-dropzone" onclick="document.getElementById('sim').click()">
                   <div style="font-size:28px">🚗</div>
                   <div style="font-size:13px;font-weight:700;color:var(--color-navy);margin-top:4px" id="sim-lbl">Pilih atau Seret Foto SIM</div>
                   <div style="font-size:11px;color:var(--color-muted)">Pastikan masa berlaku SIM masih aktif</div>
                 </div>
-                <input id="sim" name="sim" type="file" accept="image/*,application/pdf" style="display:none">
+                <input id="sim" name="sim" type="file" accept="image/*,application/pdf" style="display:none" onchange="updateFileLabel(this, 'sim-lbl')">
               </div>
             </div>
 
@@ -87,16 +87,26 @@
       </div>
     </div>
   </div>
-<section class="auth-card" id="app" style="max-width:540px;margin:24px auto"></section></main>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script src="register.js"></script>
+<script>
+  Register.init({
+    role: "pengemudi",
+    steps: ["Kredensial Akun", "Unggah KTP & SIM"]
+  });
+
+  function updateFileLabel(input, lblId) {
+    const lbl = document.getElementById(lblId);
+    if (input.files && input.files[0]) {
+      lbl.textContent = `✓ ${input.files[0].name}`;
+      lbl.style.color = "var(--color-success)";
+    }
+  }
+</script>
 </body>
 </html>

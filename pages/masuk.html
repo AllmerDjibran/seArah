@@ -42,8 +42,8 @@
       <div class="demo-accounts">
         <b style="color:var(--color-navy);display:block;margin-bottom:4px">Akun Demo Pengujian:</b>
         <div>
-          <span class="demo-pill">🔑 Admin Demo</span>
-          <span class="demo-pill">🚗 Driver Demo</span>
+          <span class="demo-pill" onclick="fillDemo('admin@searah.id', '12345678')">🔑 Admin Demo</span>
+          <span class="demo-pill" onclick="fillDemo('ahmad.driver@searah.id', 'driver123')">🚗 Driver Demo</span>
         </div>
         <span style="font-size:11px;color:var(--color-muted);margin-top:4px;display:block">
           Klik akun di atas untuk mengisi formulir secara instan.
@@ -55,15 +55,74 @@
       </p>
     </div>
   </div>
-<section class="auth-card" id="app" style="max-width:540px;margin:24px auto"></section></main>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script>
+  UI.navbar("guest");
+  UI.footer();
+
+  function fillDemo(email, pass) {
+    document.getElementById("email").value = email;
+    document.getElementById("password").value = pass;
+    UI.toast(`Mengisi akun demo: ${email}`, "info");
+  }
+
+  const form = document.getElementById("form-masuk");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const emailEl = form.email;
+    const passEl = form.password;
+    UI.fieldClear(emailEl);
+    UI.fieldClear(passEl);
+
+    let ok = true;
+    if (!UI.validators.email(emailEl.value)) {
+      UI.fieldError(emailEl, "Format email tidak valid.");
+      ok = false;
+    }
+    if (!passEl.value) {
+      UI.fieldError(passEl, "Password wajib diisi.");
+      ok = false;
+    }
+    if (!ok) return;
+
+    const btn = document.getElementById("btn-login");
+    btn.disabled = true;
+    btn.textContent = "Memverifikasi...";
+
+    try {
+      await api.login({ email: emailEl.value.trim(), password: passEl.value });
+      const s = api.getSession();
+      UI.toast(`Selamat datang kembali, ${s.name || s.email}!`, "success");
+
+      setTimeout(() => {
+        const acct = DB.users.find((x) => x.id === s.id) || {};
+        if (acct.status === "ban") { location.href = "ajukan-unban.html"; return; }
+        if (s.role === "admin") {
+          location.href = "admin-verifikasi.html";
+        } else if (s.role === "pengemudi") {
+          const st = api.getDriverStatus();
+          if (st && st.status === "disetujui") {
+            location.href = "dashboard-pengemudi.html";
+          } else {
+            location.href = "status-verifikasi.html";
+          }
+        } else {
+          const next = new URLSearchParams(location.search).get("next") || "../index.html";
+          location.href = next;
+        }
+      }, 300);
+    } catch (err) {
+      UI.fieldError(passEl, err.message);
+      UI.toast(err.message, "error");
+      btn.disabled = false;
+      btn.textContent = "Masuk ke Akun";
+    }
+  });
+</script>
 </body>
 </html>

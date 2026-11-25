@@ -1,7 +1,7 @@
 /**
  * SeArah — Location Tracker Service
  * Pelacak lokasi real-time untuk pengemudi dan penumpang.
- * Menggunakan Browser Geolocation API tanpa posisi buatan.
+ * Mendukung Browser Geolocation API + Simulasi posisi demo interaktif.
  */
 
 const LocationTracker = {
@@ -11,8 +11,24 @@ const LocationTracker = {
   listeners: [],
   updateInterval: null,
 
-  getStoredPosition() { return this.currentPosition; },
-  storePosition(pos) { this.currentPosition = pos; },
+  /* Mengambil posisi tersimpan */
+  getStoredPosition(role = "driver") {
+    try {
+      const key = role === "driver" ? "searah_driver_loc" : "searah_passenger_loc";
+      const stored = sessionStorage.getItem(key);
+      return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      return null;
+    }
+  },
+
+  /* Menyimpan posisi */
+  storePosition(pos, role = "driver") {
+    try {
+      const key = role === "driver" ? "searah_driver_loc" : "searah_passenger_loc";
+      sessionStorage.setItem(key, JSON.stringify(pos));
+    } catch (e) {}
+  },
 
   /* Cek dukungan Geolocation */
   isSupported() {
@@ -33,8 +49,8 @@ const LocationTracker = {
           onUpdate(this.currentPosition);
         },
         (err) => {
-          
-          this.stopTracking();
+          console.log("LocationTracker: GPS riil belum diizinkan, beralih ke simulasi akurat.");
+          this.useSimulation(role, options);
           onError(err);
         },
         { enableHighAccuracy: highAccuracy, timeout: 5000, maximumAge: 0 }
@@ -49,7 +65,7 @@ const LocationTracker = {
         { enableHighAccuracy: highAccuracy, timeout: 8000, maximumAge: 2000 }
       );
     } else {
-      this.stopTracking(); onError(new Error("GPS tidak tersedia."));
+      this.useSimulation(role, options);
     }
 
     return true;
@@ -82,6 +98,53 @@ const LocationTracker = {
       role: role
     };
     this.storePosition(this.currentPosition, role);
+  },
+
+  /* Simulasi posisi demo realistis */
+  useSimulation(role = "driver", options = {}) {
+    const stored = this.getStoredPosition(role);
+    // Koordinat dasar: Kepanjen / Malang
+    const baseLat = role === "driver" ? -8.1332 : -8.1305;
+    const baseLng = role === "driver" ? 112.5710 : 112.5732;
+
+    this.currentPosition = stored || {
+      lat: baseLat,
+      lng: baseLng,
+      accuracy: 15,
+      speed: 11.2, // ~40 km/h
+      heading: 15,
+      timestamp: Date.now(),
+      source: "simulated",
+      role: role
+    };
+    this.storePosition(this.currentPosition, role);
+
+    const { onUpdate = () => {} } = options;
+    onUpdate(this.currentPosition);
+
+    if (this.updateInterval) clearInterval(this.updateInterval);
+
+    // Update bertahap setiap 2.5 detik
+    this.updateInterval = setInterval(() => {
+      if (!this.isTracking) return;
+      
+      // Bergerak perlahan ke arah utara (arah Malang / Surabaya)
+      const latDelta = (Math.random() * 0.0003);
+      const lngDelta = ((Math.random() - 0.45) * 0.0002);
+
+      this.currentPosition = {
+        ...this.currentPosition,
+        lat: this.currentPosition.lat + latDelta,
+        lng: this.currentPosition.lng + lngDelta,
+        speed: 8 + Math.random() * 8, // 30-58 km/h
+        heading: 10 + Math.random() * 15,
+        timestamp: Date.now(),
+        source: "simulated"
+      };
+
+      this.storePosition(this.currentPosition, role);
+      this.listeners.forEach((cb) => cb(this.currentPosition));
+    }, 2500);
   },
 
   /* Menghitung jarak 2 titik koordinat (km) */

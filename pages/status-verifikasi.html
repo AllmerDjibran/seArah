@@ -18,15 +18,123 @@
 
 <div id="navbar-slot"></div>
 
-<main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+<main class="wrap">
+  <div class="auth-wrap">
+    <div class="status-box" id="box">
+      <div class="timer" id="icon">⏳</div>
+      <h1 id="title" style="margin-top:16px">Menunggu Verifikasi</h1>
+      <div id="body" style="margin-top:12px;font-size:var(--text-sm);color:var(--color-muted);line-height:1.6"></div>
+      <div id="actions" style="margin-top:24px"></div>
+    </div>
+  </div>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  // Alur khusus pengemudi
+  if (!UI.requireDriver()) throw new Error("redirect");
+
+  const icon = document.getElementById("icon");
+  const title = document.getElementById("title");
+  const body = document.getElementById("body");
+  const actions = document.getElementById("actions");
+
+  function render() {
+    const sess = api.getSession();
+    if (!sess) {
+      location.href = "masuk.html";
+      return;
+    }
+
+    const st = api.getDriverStatus();
+    if (!st) {
+      body.innerHTML = `<p>Akun ini tidak terdaftar sebagai pengemudi.</p>`;
+      actions.innerHTML = `<a class="btn btn--primary" href="../index.html">Ke Beranda</a>`;
+      return;
+    }
+
+    if (st.status === "disetujui") {
+      icon.textContent = "🎉";
+      title.textContent = "Akun Mitra Disetujui!";
+      title.style.color = "var(--color-success)";
+      body.innerHTML = `
+        <div style="background:var(--color-success-bg);border:1px solid rgba(18,161,80,0.3);padding:16px;border-radius:12px;color:#065f46;text-align:left">
+          <b>Selamat, ${sess.name || 'Mitra Driver'}!</b><br>
+          Admin telah memeriksa dan menyetujui dokumen KTP &amp; SIM Anda. Anda sekarang dapat menerima pesanan perjalanan aktif dari penumpang.
+        </div>`;
+      actions.innerHTML = `
+        <a class="btn btn--primary btn--lg btn--block" href="dashboard-pengemudi.html">
+          Masuk ke Dashboard Perjalanan ›
+        </a>`;
+    } else if (st.status === "ditolak") {
+      icon.textContent = "❌";
+      title.textContent = "Dokumen Verifikasi Ditolak";
+      title.style.color = "var(--color-danger)";
+
+      const lastNote = (st.notes && st.notes.length) ? st.notes[st.notes.length - 1].catatan : "Foto dokumen buram atau tidak terbaca dengan jelas.";
+      body.innerHTML = `
+        <div style="background:var(--color-danger-bg);border:1px solid rgba(217,48,37,0.3);padding:14px;border-radius:12px;color:#7f1d1d;text-align:left;margin-bottom:16px">
+          <b>Catatan Penolakan Admin (Dokumen 5.3):</b><br>
+          <i>"${lastNote}"</i>
+        </div>
+        <p style="text-align:left;font-weight:700;color:var(--color-navy);margin-bottom:8px">
+          Unggah Ulang Dokumen yang Diperbaiki:
+        </p>
+        <div style="text-align:left;display:flex;flex-direction:column;gap:12px">
+          <div class="field">
+            <label for="ktp-new">Foto KTP Asli Terbaru</label>
+            <input type="file" id="ktp-new" accept="image/*,application/pdf">
+          </div>
+          <div class="field">
+            <label for="sim-new">Foto SIM B/A Asli Terbaru</label>
+            <input type="file" id="sim-new" accept="image/*,application/pdf">
+          </div>
+        </div>`;
+      actions.innerHTML = `
+        <button class="btn btn--primary btn--lg btn--block" id="btn-reupload">
+          Kirim Ulang untuk Diverifikasi
+        </button>`;
+
+      document.getElementById("btn-reupload")?.addEventListener("click", async () => {
+        const k = document.getElementById("ktp-new").files[0];
+        const s = document.getElementById("sim-new").files[0];
+        if (!k && !s) {
+          UI.toast("Silakan pilih minimal satu file dokumen yang diperbaiki.", "warning");
+          return;
+        }
+        if (k) await api.uploadDocument({ jenis: "KTP", fileName: k.name });
+        if (s) await api.uploadDocument({ jenis: "SIM", fileName: s.name });
+
+        UI.toast("Dokumen perbaikan berhasil dikirim ke antrean admin.", "success");
+        render();
+      });
+    } else {
+      /* Status Menunggu */
+      icon.textContent = "⏳";
+      title.textContent = "Menunggu Verifikasi Admin";
+      title.style.color = "var(--color-navy)";
+      body.innerHTML = `
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;padding:16px;border-radius:12px;color:#1e40af;text-align:left">
+          <b>Dokumen Sedang Diperiksa</b><br>
+          Admin SeArah sedang memvalidasi foto KTP dan SIM Anda. Selama proses ini berlangsung, Anda belum dapat menerima order perjalanan.
+        </div>
+        <p style="margin-top:12px;font-size:12px;color:var(--color-muted)">
+          Proses verifikasi biasanya memakan waktu maksimal 1x24 jam kerja.
+        </p>`;
+      actions.innerHTML = `
+        <a class="btn btn--ghost" href="../index.html">Kembali ke Beranda</a>`;
+    }
+  }
+
+  /* Demo control handlers dihapus (halaman ini auto-muncul saat driver login belum disetujui) */
+
+  render();
+</script>
 </body>
 </html>

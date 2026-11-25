@@ -20,18 +20,168 @@
 
 <div id="navbar-slot"></div>
 
-<main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+<main class="wrap">
+  <div class="drv-dashboard">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div>
+        <h1 style="margin:0">🗺️ Perjalanan Aktif Driver</h1>
+        <p style="color:var(--color-muted);font-size:var(--text-sm);margin:4px 0 0">Navigasi multi-stop langsung, pantau posisi jemput penumpang &amp; status rute.</p>
+      </div>
+      <a href="dashboard-pengemudi.html" class="btn btn--ghost btn--sm">← Dashboard Driver</a>
+    </div>
+
+    <!-- Banner Perjalanan Aktif -->
+    <div class="drv-active-trip">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+        <div>
+          <h2>🚗 Kepanjen → Surabaya (Rute Berjalan)</h2>
+          <div class="trip-info-line">📦 Layanan: <b>Reguler Shuttle (Antar-Pool)</b> · 👥 <b>3 Penumpang di Armada</b></div>
+          <div class="trip-info-line">🕐 Jadwal: <b>08:00 WIB</b> · Estimasi Tiba di Surabaya: <b>10:15 WIB</b></div>
+          <div class="trip-info-line">🚗 Armada: <b>Toyota HiAce Premio · N 7421 KP</b></div>
+        </div>
+        <span class="pill pill--green" style="background:#ffffff;color:#065f46;font-weight:800">● LIVE RUNNING</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn btn--primary" style="background:#ffffff;color:#065f46;border:none" id="btn-next-stop">
+          ▶ Lanjut ke Pemberhentian Berikutnya
+        </button>
+        <button class="btn btn--ghost" style="border-color:rgba(255,255,255,0.4);color:#ffffff" id="btn-end-trip">
+          🏁 Selesaikan Perjalanan
+        </button>
+      </div>
+    </div>
+
+    <!-- Peta Navigasi Live TripSync Driver -->
+    <div class="flow-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div>
+          <h2 style="margin:0">📡 Peta Navigasi &amp; Posisi Armada</h2>
+          <p style="font-size:12px;color:var(--color-muted);margin:2px 0 0">Peta interaktif terhubung dengan seluruh titik drop off dan jemput penumpang.</p>
+        </div>
+        <div class="loc-pulse-container">
+          <div class="loc-pulse-dot" id="active-loc-dot"></div>
+          <span class="loc-pulse-label" id="active-loc-label">GPS Driver Aktif</span>
+        </div>
+      </div>
+      <div class="drv-live-map-wrap" style="height:420px">
+        <div id="active-trip-map" style="width:100%;height:100%;z-index:1"></div>
+        <div class="drv-map-overlay">
+          <div>
+            <span style="font-weight:700" id="active-coords">Mengaktifkan pelacakan armada...</span><br>
+            <small id="active-detail">Pemberhentian #1: Garasi Utama Kepanjen</small>
+          </div>
+          <span class="pill pill--green" id="active-step-badge">Stop 1 / 5</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daftar Penumpang & Rincian Stop -->
+    <div class="flow-card">
+      <h2>👥 Daftar Penumpang &amp; Titik Drop Off</h2>
+      <p style="font-size:12px;color:var(--color-muted);margin:2px 0 12px">Pastikan seluruh penumpang terkonfirmasi saat naik dan turun dari armada.</p>
+      <div style="display:flex;flex-direction:column;gap:10px" id="passenger-list">
+        <!-- Injected -->
+      </div>
+    </div>
+  </div>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
-
-
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script src="../js/map-service.js"></script>
+<script src="../js/location-tracker.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  // Alur khusus pengemudi
+  if (!UI.requireDriver()) throw new Error("redirect");
+
+  const s = api.getSession();
+  if (!s || s.role !== "pengemudi") {
+    location.href = "masuk.html";
+  }
+
+  const drvName = s ? (s.name || s.email.split("@")[0]) : "Mitra Driver";
+
+  const fakeBooking = {
+    query: { asal: "Kepanjen", tujuan: "Surabaya" },
+    paket: "reguler",
+    penumpang: "Rizky Ramadhan",
+    driver: drvName,
+    plat: "N 7421 KP",
+    jemput: "Garasi Utama SeArah Kepanjen",
+    antar: "Garasi Utama SeArah Surabaya"
+  };
+
+  let curStep = 0;
+  let tripSyncMap = null;
+
+  setTimeout(() => {
+    tripSyncMap = MapService.initTripSyncMap("active-trip-map", fakeBooking, { curStep });
+    updateStepUI();
+
+    // Jalankan pelacak lokasi driver
+    LocationTracker.startTracking({
+      role: "driver",
+      onUpdate: (pos) => {
+        if (pos) {
+          document.getElementById("active-coords").textContent = `GPS: ${pos.lat.toFixed(5)}, ${pos.lng.toFixed(5)} · Kecepatan: ${LocationTracker.formatSpeed(pos.speed)}`;
+        }
+      }
+    });
+  }, 100);
+
+  function updateStepUI() {
+    const stops = tripSyncMap ? tripSyncMap.stops : [];
+    const total = stops.length || 5;
+    document.getElementById("active-step-badge").textContent = `Stop ${curStep + 1} / ${total}`;
+    if (stops[curStep]) {
+      document.getElementById("active-detail").textContent = `Sedang Dituju (#${curStep + 1}): ${stops[curStep].passenger} — ${stops[curStep].address}`;
+    }
+  }
+
+  document.getElementById("btn-next-stop").addEventListener("click", () => {
+    if (!tripSyncMap) return;
+    const stops = tripSyncMap.stops;
+    curStep = (curStep + 1) % stops.length;
+    tripSyncMap.moveToStep(curStep);
+    updateStepUI();
+    UI.toast(`🚗 Armada bergerak menuju Stop #${curStep + 1}: ${stops[curStep].passenger}`, "info");
+  });
+
+  document.getElementById("btn-end-trip").addEventListener("click", () => {
+    LocationTracker.stopTracking();
+    UI.toast("🏁 Perjalanan selesai! Semua penumpang berhasil diantar.", "success");
+    setTimeout(() => { location.href = "dashboard-pengemudi.html"; }, 1500);
+  });
+
+  const passengers = [
+    { name: "Rizky Ramadhan", kursi: "Kursi 1", jemput: "Garasi Utama Kepanjen", drop: "Garasi Surabaya", hp: "+62 812-9988-1122", status: "Sudah di Armada" },
+    { name: "Dina Rahmawati", kursi: "Kursi 2", jemput: "Transit Singosari (KM 88)", drop: "Bandara Juanda T1", hp: "+62 813-7766-3344", status: "Sudah di Armada" },
+    { name: "Bambang Haryanto", kursi: "Kursi 3", jemput: "Rest Area KM 66", drop: "Stasiun Gubeng", hp: "+62 857-4433-2211", status: "Menunggu Antrean Drop" }
+  ];
+
+  document.getElementById("passenger-list").innerHTML = passengers.map((p) => `
+    <div style="border:1.5px solid var(--color-border);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:${p.status === 'Sudah di Armada' ? '#f0fdf4' : 'var(--color-white)'}">
+      <div>
+        <div style="font-weight:800;color:var(--color-navy);font-size:14px">
+          ${p.name} <span style="font-size:12px;font-weight:600;color:var(--color-blue)">(${p.kursi})</span>
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:2px">
+          📍 Naik: <b>${p.jemput}</b> → 🏁 Turun: <b>${p.drop}</b><br>
+          📞 Kontak: <b>${p.hp}</b>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pill pill--${p.status === 'Sudah di Armada' ? 'green' : 'orange'}">${p.status}</span>
+        <button class="btn btn--ghost btn--sm" onclick="UI.toast('Menghubungi ${p.name} via WhatsApp...', 'info')">💬 Chat</button>
+      </div>
+    </div>
+  `).join("");
+</script>
 </body>
 </html>

@@ -1,0 +1,527 @@
+{
+  "backup": "F:/ProgrammingProjects/SeArah/backups/frontend-before-v6-2026-11-25T19-23-15-299Z",
+  "stage": "F:/ProgrammingProjects/SeArah/outputs/frontend-v6-staging-2026-11-25T19-23-15-299Z",
+  "restoredCount": 64,
+  "counts": {
+    "pages": 27,
+    "css": 13,
+    "js": 5,
+    "assets": 18
+  },
+  "protectedCount": 26,
+  "protectedChanges": [],
+  "results": [
+    {
+      "name": "assets/driver-avatar.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "c67a67d964a46161df2b087c2b175d7da5017005b75f52f3ea8cf5cdbdb7d0e0",
+      "publishedHash": "c67a67d964a46161df2b087c2b175d7da5017005b75f52f3ea8cf5cdbdb7d0e0"
+    },
+    {
+      "name": "assets/hero-real.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "daf0572bfe593de012a835d403ed8209adf7902ddba4e47c32ac824ffbe763a6",
+      "publishedHash": "daf0572bfe593de012a835d403ed8209adf7902ddba4e47c32ac824ffbe763a6"
+    },
+    {
+      "name": "assets/hero.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "daf0572bfe593de012a835d403ed8209adf7902ddba4e47c32ac824ffbe763a6",
+      "publishedHash": "daf0572bfe593de012a835d403ed8209adf7902ddba4e47c32ac824ffbe763a6"
+    },
+    {
+      "name": "assets/icon-cs.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "0d37300b654b62ff3779090cf31efd475d86c39cadb7b3fdbf88d731160407d4",
+      "publishedHash": "0d37300b654b62ff3779090cf31efd475d86c39cadb7b3fdbf88d731160407d4"
+    },
+    {
+      "name": "assets/icon-ig.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "d3ccf6fc2ac16cd43bc3d35f6198c08c5827efb998d09b1fe4c3805c7fde002d",
+      "publishedHash": "d3ccf6fc2ac16cd43bc3d35f6198c08c5827efb998d09b1fe4c3805c7fde002d"
+    },
+    {
+      "name": "assets/icon-tiktok.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "2e792c0979f9bdb425e167f44c096fe5b3c14968d04f53ba18124a80e2eb08aa",
+      "publishedHash": "2e792c0979f9bdb425e167f44c096fe5b3c14968d04f53ba18124a80e2eb08aa"
+    },
+    {
+      "name": "assets/icon-wa.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "2c758b50ffb18fa03125983a607fb527d10c1fb4518fc0cc6ca14ebc57f02ea5",
+      "publishedHash": "2c758b50ffb18fa03125983a607fb527d10c1fb4518fc0cc6ca14ebc57f02ea5"
+    },
+    {
+      "name": "assets/invoice-preview.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "e687082108733a372c9709c94c776da2023175e8c7beaa16043ff2cc021fb5fd",
+      "publishedHash": "e687082108733a372c9709c94c776da2023175e8c7beaa16043ff2cc021fb5fd"
+    },
+    {
+      "name": "assets/logo.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "fcf84d774aadaf2216de46b1be5dbd9c4cd0499dcfa9c3b9be44149356f444b5",
+      "publishedHash": "fcf84d774aadaf2216de46b1be5dbd9c4cd0499dcfa9c3b9be44149356f444b5"
+    },
+    {
+      "name": "assets/logofix.jpg",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "d4df5c3323882d07ad49c47ec308ba45806dc6710bad3cb4aece42709d34a604",
+      "publishedHash": "d4df5c3323882d07ad49c47ec308ba45806dc6710bad3cb4aece42709d34a604"
+    },
+    {
+      "name": "assets/paket-d2d-real.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "fb58c31c6473d9897f1acb80572f5ac7342cb3b422134410f7a0b88871387922",
+      "publishedHash": "fb58c31c6473d9897f1acb80572f5ac7342cb3b422134410f7a0b88871387922"
+    },
+    {
+      "name": "assets/paket-d2d.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "fb58c31c6473d9897f1acb80572f5ac7342cb3b422134410f7a0b88871387922",
+      "publishedHash": "fb58c31c6473d9897f1acb80572f5ac7342cb3b422134410f7a0b88871387922"
+    },
+    {
+      "name": "assets/paket-private-real.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "223f2066c61bd0f6c5bb29638821f3b7c56a88c283f2bce037afe0045754ab40",
+      "publishedHash": "223f2066c61bd0f6c5bb29638821f3b7c56a88c283f2bce037afe0045754ab40"
+    },
+    {
+      "name": "assets/paket-private.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "223f2066c61bd0f6c5bb29638821f3b7c56a88c283f2bce037afe0045754ab40",
+      "publishedHash": "223f2066c61bd0f6c5bb29638821f3b7c56a88c283f2bce037afe0045754ab40"
+    },
+    {
+      "name": "assets/paket-reguler-real.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "f66c5cba0ca8bc52ff31b85e3942abb55f5b1a5cc98e011c40f9a21c4a6d77f0",
+      "publishedHash": "f66c5cba0ca8bc52ff31b85e3942abb55f5b1a5cc98e011c40f9a21c4a6d77f0"
+    },
+    {
+      "name": "assets/paket-reguler.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "f66c5cba0ca8bc52ff31b85e3942abb55f5b1a5cc98e011c40f9a21c4a6d77f0",
+      "publishedHash": "f66c5cba0ca8bc52ff31b85e3942abb55f5b1a5cc98e011c40f9a21c4a6d77f0"
+    },
+    {
+      "name": "assets/paket.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "b54c6ec20ecc2ced2b86467a93dd24bc32c154108224676d3fd90e0b6293cb83",
+      "publishedHash": "b54c6ec20ecc2ced2b86467a93dd24bc32c154108224676d3fd90e0b6293cb83"
+    },
+    {
+      "name": "assets/qris.png",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": null,
+      "sourceHash": "39b59b2c87d96cc215eadb33fa4d04fe2fcaba2f91abc71ee9840f2369bd7152",
+      "publishedHash": "39b59b2c87d96cc215eadb33fa4d04fe2fcaba2f91abc71ee9840f2369bd7152"
+    },
+    {
+      "name": "css/admin.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "554a3f2e142c7fe5735a70ea55ba5ff436f22f2a09d3bfe60a366e5d12155cc7",
+      "publishedHash": "554a3f2e142c7fe5735a70ea55ba5ff436f22f2a09d3bfe60a366e5d12155cc7"
+    },
+    {
+      "name": "css/auth.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "3e187b0ef62cd86a21893134512a9e98ae3087579b2dbd6c30e6f38b28b1cdee",
+      "publishedHash": "3e187b0ef62cd86a21893134512a9e98ae3087579b2dbd6c30e6f38b28b1cdee"
+    },
+    {
+      "name": "css/booking.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "095f94e78b64f917a4e1575e450508b065b8dd52bf0e56ccaa7c04007c008531",
+      "publishedHash": "095f94e78b64f917a4e1575e450508b065b8dd52bf0e56ccaa7c04007c008531"
+    },
+    {
+      "name": "css/components.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "8ade2fb9196a95d779bf08099d398e7bbb79d11d848e23d43b4cb04cedea448a",
+      "publishedHash": "8ade2fb9196a95d779bf08099d398e7bbb79d11d848e23d43b4cb04cedea448a"
+    },
+    {
+      "name": "css/contact.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "5962bb233886f28c0a64001e988fc2d448cf5e0c92c8d4978c95e0bb2f7be471",
+      "publishedHash": "5962bb233886f28c0a64001e988fc2d448cf5e0c92c8d4978c95e0bb2f7be471"
+    },
+    {
+      "name": "css/driver.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "6f29eac51d6a78337d335cddbb3e4d259782e6271216005687f9770baa3edb5e",
+      "publishedHash": "6f29eac51d6a78337d335cddbb3e4d259782e6271216005687f9770baa3edb5e"
+    },
+    {
+      "name": "css/flow.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "d9ca37fc1556e69239cfa933f247a2dd7ad12cf09de4c39b296496819b500c8b",
+      "publishedHash": "d9ca37fc1556e69239cfa933f247a2dd7ad12cf09de4c39b296496819b500c8b"
+    },
+    {
+      "name": "css/landing.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "9bdbdc45fbc13f190a1fab3125f1d418ce0da77554c3a454ce569007e3987625",
+      "publishedHash": "9bdbdc45fbc13f190a1fab3125f1d418ce0da77554c3a454ce569007e3987625"
+    },
+    {
+      "name": "css/profile.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "72a40519374c1872ce9abf6b64dba144639da73505473415e6f555e1f914f999",
+      "publishedHash": "72a40519374c1872ce9abf6b64dba144639da73505473415e6f555e1f914f999"
+    },
+    {
+      "name": "css/register.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "d8c7685d1de97210ccb2685759edbc84cc0e6a19076eda2d649092f01dfc608f",
+      "publishedHash": "d8c7685d1de97210ccb2685759edbc84cc0e6a19076eda2d649092f01dfc608f"
+    },
+    {
+      "name": "css/reset.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "564e259275df4363110d29cf8f4b32dbf273b6ce7a5cc077e7b77f0bca80ad76",
+      "publishedHash": "564e259275df4363110d29cf8f4b32dbf273b6ce7a5cc077e7b77f0bca80ad76"
+    },
+    {
+      "name": "css/tokens.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "9c75c48650339f3c86187ea7af1b32b23703c9c88e73538ed05b61ebd539efd8",
+      "publishedHash": "9c75c48650339f3c86187ea7af1b32b23703c9c88e73538ed05b61ebd539efd8"
+    },
+    {
+      "name": "css/typography.css",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "44b1305e8751a8ab62f7f652cf163d6d4ff3aae862e4c58d9ad9ab6fcc7a507a",
+      "publishedHash": "44b1305e8751a8ab62f7f652cf163d6d4ff3aae862e4c58d9ad9ab6fcc7a507a"
+    },
+    {
+      "name": "index.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "8d9b04b01f28a53310363b050ab63b32fa6f9a6c5dabdb25eda202b2a009206d",
+      "publishedHash": "a54a03930d09a16681e066a14f427cf6ce6164ee9752479de2a2bcbb48e0eb04"
+    },
+    {
+      "name": "js/api.js",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "d179bf7d5a717d46b8b5bcb0096da356f8c49bd20a087e2945590ddfc13a3e97",
+      "publishedHash": "d179bf7d5a717d46b8b5bcb0096da356f8c49bd20a087e2945590ddfc13a3e97"
+    },
+    {
+      "name": "js/landing.js",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "09b71ac425d5f95247927874271c9b89b0c5863bc760f40814f1d219d5b012e4",
+      "publishedHash": "09b71ac425d5f95247927874271c9b89b0c5863bc760f40814f1d219d5b012e4"
+    },
+    {
+      "name": "js/location-tracker.js",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "2bca5a27771a7726e40155a7b4ff2d4d706a3d3f4c1b44820cc51c3b64324da1",
+      "publishedHash": "2bca5a27771a7726e40155a7b4ff2d4d706a3d3f4c1b44820cc51c3b64324da1"
+    },
+    {
+      "name": "js/map-service.js",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "f2d10ba82073ca88ad77cdd19e95fbc8930c75e8cf991f357b29afd4e7e4050d",
+      "publishedHash": "f2d10ba82073ca88ad77cdd19e95fbc8930c75e8cf991f357b29afd4e7e4050d"
+    },
+    {
+      "name": "js/ui.js",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "964a11e66f0e2268e5665ba3580c810059a53411ab26dabd4c0d97b5cdaca7b0",
+      "publishedHash": "964a11e66f0e2268e5665ba3580c810059a53411ab26dabd4c0d97b5cdaca7b0"
+    },
+    {
+      "name": "pages/admin-armada.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "5c76d2637c497b6259edd7403524cd8d53ad3936fe692b7608bd00cfa4bb8e9c",
+      "publishedHash": "87bddc60221e0c693f330eb67afee7fd0fb37cca39484d2315a872dd6b51a6a6"
+    },
+    {
+      "name": "pages/admin-panel.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "fe6bdbace59b5226d6ad14920db0c2dbe3742f37f4088e0a12828187ad1cf40b",
+      "publishedHash": "0550a03ad641b4128d88689399e5994fc2836b7541b0950bd4f6c83554ecbd7f"
+    },
+    {
+      "name": "pages/admin-setting.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "4cdda3194ce74f69280b63f4ff091db39c12753df02eba57dc16280ad0180ac1",
+      "publishedHash": "64a5ab65d0d29875f7a6a87770f49687e8f421cb3664eb3855c95eddcf554ae6"
+    },
+    {
+      "name": "pages/admin-unban.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "2a7ecfd2afe6fb76f36e9100f7a693d3acf5f6d52eaad276c277a513e2ecde30",
+      "publishedHash": "490bcaa14dbbe66f2d16324f78b29e99556b8cbb7160b305e79cae4954c545ab"
+    },
+    {
+      "name": "pages/admin-verifikasi.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "b747500d31fcd292cc1f3980d46d9199554d4773e568c13e7e41403576f87c30",
+      "publishedHash": "6d429e0eb56de0d32a5f88ddc4299b27d564069fff8c7c9d747898476d98f663"
+    },
+    {
+      "name": "pages/ajukan-unban.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "f3358b6c3b4d3fa1f5cd8a4e7e7796ae9f1cf9c00c0296dc32077ac4cdf836b4",
+      "publishedHash": "6fb4678cb219ce17dfbf9c29fc572a01270c4d0771f63135bea27ba6a89feffe"
+    },
+    {
+      "name": "pages/booking.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "841295cf7a29c9985a7a49aacebb48d394c1e678c8f54f84aae51a28f3af5c75",
+      "publishedHash": "90f55470d2428604f751155d41b68ff15e378840c3168b2f862406ce9b2e8695"
+    },
+    {
+      "name": "pages/checkout.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "6704ade01f66532ab0e1c2a21b555f0bbeefb12c16644057a57501adbecc3c9e",
+      "publishedHash": "a158f45c7fc674aaff20d1bf940563001f9b89b83823a63c951255c6916afed9"
+    },
+    {
+      "name": "pages/daftar-pengemudi.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "3d3701d1f4094f96416eb19e826184bd501a12c00a7baf6f500f78909d40339b",
+      "publishedHash": "9e90c285aecea6c0ace0ce87f54e2ced8e769e9766c3cfb2cb2307ea8a85f45a"
+    },
+    {
+      "name": "pages/daftar-penumpang.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "54751efa6bb0b13f153f88e41cb88454f200f37c1c4a5a0c9fde1a7e29e76d5b",
+      "publishedHash": "4ce5987e87bd88c82f6b72edad38eda7b6b1ad1ff2f664e219feb4f1219f4911"
+    },
+    {
+      "name": "pages/daftar.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "e0b4169344a69e85f54cd1aee54f64056e0d336b949838daf2c18483d2c6bb76",
+      "publishedHash": "6ec6c3f86f054d8ff3b3fb84eb8f4306e6792ae913a232efc6df22d3aabd358d"
+    },
+    {
+      "name": "pages/dashboard-pengemudi.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "144937c428523c28c28a7c95b7e561b6a2a1f22965c733f256bb4d0cc3b12390",
+      "publishedHash": "825a74c6bb60807694b63b7be3615ffa55e8cf4e2d9a6b1de899aeee3b82eb89"
+    },
+    {
+      "name": "pages/detail-perjalanan.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": true,
+      "originalBackupMatch": false,
+      "sourceHash": "54c601991e9bb8d20ecd491795f1f9791e731030ee788f5e725d318b9424a451",
+      "publishedHash": "e28bab56e6019b878af33859909ee41c9b34ac6d3862c8aba9863ea7a3918b55"
+    },
+    {
+      "name": "pages/edit-akun-driver.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "7a55da6d922daf0456ede5624899b9d4a1d58fd311691dbd6384cb7714221b6f",
+      "publishedHash": "5f9f1758a8dae048ba40f9090eb1c22671b902475819e0820120eb954e926f5c"
+    },
+    {
+      "name": "pages/edit-profil.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "76b62805ee875ffd4cacece0f08f21879a0e255e5d7276e82ad68f8c135676e1",
+      "publishedHash": "9ce538a5f2e7e4084a71d48a8e45de8829633fa72e35f018bc9610fede6fa415"
+    },
+    {
+      "name": "pages/invoice.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "d0a5f164a861cb084df1d8d60cf01aef36ef6b71720867d21aa940543caca0f5",
+      "publishedHash": "acecf06ca8797e7206cf301bfa3079d075e212f49736533c54616bf7cfecc215"
+    },
+    {
+      "name": "pages/komponen.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "34e8fbd00c92fe2499c12563a242a5cd54fa924225c3af6129677793380cfec5",
+      "publishedHash": "dd75f4a872f44701e17a131042e61c1bc674bff070e0b81652dd1d7af71a99d1"
+    },
+    {
+      "name": "pages/masuk.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "31cb7a916ade98762daddd6062442867ed858e67b143b12dbc493a0c13c7145d",
+      "publishedHash": "7a53a44c8411d64c8cefe97cc95d6c6adf83c2e17d9f21ddee1e94c04b449ffb"
+    },
+    {
+      "name": "pages/menunggu-verifikasi.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "977b0195c2a4e959da2a61b44ab2a7c7b392babb66c5a56f5779a27e94ee526a",
+      "publishedHash": "6ceaf5269980357a40be9ef227036500b9b5b1b5609fd16a25eed0ef2bbe4f64"
+    },
+    {
+      "name": "pages/order-masuk-driver.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "54e4bb2494867ae0e55c6891c9a6393bcb8a44a1b11e5d664ef97521cbb2216e",
+      "publishedHash": "1bb46dd4fa8b0f2a25edf513a185b6cd04131c5070a26afe491467959a426522"
+    },
+    {
+      "name": "pages/pembatalan.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "8c0b151d4e3f73fe42f6fcc27632acb7f5a38215820c379f57dbd5b1550e2702",
+      "publishedHash": "75c45eb67b09bee51535ca9bd5e1289bce88822d42a63e6fb627c0995fac684c"
+    },
+    {
+      "name": "pages/pembayaran.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "b0376b2a824f518b1103a5b4fa4231c87fdfa4d9ae8e0c2ed24b483b639c3877",
+      "publishedHash": "8acc2b94020786bbc240a5a569b7a913f1a3620e5d6e8a92445a3bc51a5b3cc7"
+    },
+    {
+      "name": "pages/perjalanan-aktif-driver.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "10b49aaa80033035ade5c6896c9bb5367642878c4738ed1e4b13839feecc95c8",
+      "publishedHash": "c13b3c5e34d1343522450b3c610cedc60395231b21a10ace80f9b25ee69e304a"
+    },
+    {
+      "name": "pages/profil.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "da39aebc41f86f5e99921678b9e405ebccc24d949a0442c94193dd8e5b28d5ec",
+      "publishedHash": "9f7344d21cf821390d4cab9df2cfc2614921c66f9185c7d6c092b977639cc9b6"
+    },
+    {
+      "name": "pages/register.js",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "7cf1574e4e2e41fab5516293cc7f47ceffe59ab7fe2c0316fc96674a91c9d4c7",
+      "publishedHash": "7cf1574e4e2e41fab5516293cc7f47ceffe59ab7fe2c0316fc96674a91c9d4c7"
+    },
+    {
+      "name": "pages/status-verifikasi.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "daf15ef0ff6299cfcfbfdb7e88dfb4ec4f71b4c8006db01ea452c8e035416af7",
+      "publishedHash": "0912e0a2e85bb0b2f0df2de0abe3f5744c82930b9f116499906872870abbfd28"
+    },
+    {
+      "name": "pages/ubah-password.html",
+      "publishedMatch": true,
+      "obtainedFromPublished": false,
+      "originalBackupMatch": true,
+      "sourceHash": "3b4fc0bab765f08d76bcc723f34a377cdc908e9fbfcca7c554bcdf61481dfec9",
+      "publishedHash": "196f546daf4fb9b990d9b17c8d5fb482b231aee41be316785c2101cc1b7e82d7"
+    }
+  ]
+}

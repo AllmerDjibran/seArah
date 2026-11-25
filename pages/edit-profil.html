@@ -19,15 +19,82 @@
 
 <div id="navbar-slot"></div>
 
-<main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+<main class="wrap">
+  <div class="profile-wrap" style="max-width:600px;margin:24px auto 60px">
+    <div class="profile-card">
+      <h1>Edit Data Profil</h1>
+      <p class="sub" style="text-align:left;margin-bottom:20px">Perbarui data diri Anda yang digunakan pada reservasi tiket shuttle.</p>
+
+      <form id="edit-form" style="display:flex;flex-direction:column;gap:16px" novalidate>
+        <div class="field">
+          <label for="nama">Nama Lengkap</label>
+          <input id="nama" name="nama" required>
+        </div>
+        <div class="field">
+          <label for="email">Alamat Email</label>
+          <input id="email" name="email" type="email" required>
+        </div>
+        <div class="field">
+          <label for="telepon">Nomor WhatsApp / HP</label>
+          <input id="telepon" name="telepon" type="tel" placeholder="08xxxxxxxxxx">
+        </div>
+      </form>
+
+      <div class="profile-actions" style="margin-top:24px">
+        <a class="btn btn--ghost" href="profil.html">Batal</a>
+        <button class="btn btn--primary" id="btn-save">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  if (!UI.requirePassenger()) throw new Error("redirect");
+  const u = api.getSession();
+  const pass = api.getPassenger() || {};
+  const form = document.getElementById("edit-form");
+
+  form.nama.value = u.name || pass.nama || "";
+  form.email.value = u.email || "";
+  form.telepon.value = pass.telepon || "";
+
+  document.getElementById("btn-save").addEventListener("click", async (e) => {
+    e.preventDefault();
+    UI.fieldClear(form.nama);
+    UI.fieldClear(form.email);
+
+    let ok = true;
+    if (!form.nama.value.trim()) {
+      UI.fieldError(form.nama, "Nama lengkap wajib diisi.");
+      ok = false;
+    }
+    if (!UI.validators.email(form.email.value.trim())) {
+      UI.fieldError(form.email, "Alamat email tidak valid.");
+      ok = false;
+    }
+    if (!ok) return;
+
+    await api.updateProfile({ name: form.nama.value.trim(), email: form.email.value.trim() });
+    if (form.telepon.value.trim()) {
+      await api.savePassenger({
+        username: pass.username || form.nama.value.trim(),
+        nama: form.nama.value.trim(),
+        telepon: form.telepon.value.trim()
+      });
+    }
+
+    UI.toast("Profil Anda berhasil diperbarui!", "success");
+    setTimeout(() => {
+      location.href = "profil.html";
+    }, 300);
+  });
+</script>
 </body>
 </html>

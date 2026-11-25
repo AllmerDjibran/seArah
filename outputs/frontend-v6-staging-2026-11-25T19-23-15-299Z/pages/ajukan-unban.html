@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ajukan Banding Akun — SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <div class="auth-wrap">
+    <div class="auth-card" style="max-width:520px">
+      <h1>🔒 Akun Anda Diblokir</h1>
+      <p class="sub">Anda dapat mengajukan banding untuk membuka kembali akun. Permohonan ditinjau admin dan <b>maksimal 1x per minggu</b> (reset setiap hari Minggu).</p>
+
+      <div id="ban-info" style="background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px;border-radius:8px;font-size:13px;margin:14px 0"></div>
+
+      <form id="unban-form">
+        <div class="field">
+          <label for="reason">Alasan &amp; Klarifikasi Banding</label>
+          <textarea id="reason" name="reason" rows="4" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid var(--color-border);font-family:inherit" placeholder="Jelaskan mengapa akun sebaiknya diaktifkan kembali..."></textarea>
+        </div>
+        <button class="btn btn--primary btn--block btn--lg" type="submit" id="btn-send" style="margin-top:8px">Kirim Permohonan Banding</button>
+      </form>
+
+      <p class="auth-alt"><a href="#" onclick="event.preventDefault(); api.logout(); location.href='../index.html'">Keluar</a></p>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+  UI.navbar("guest");
+  UI.footer();
+
+  const s = api.getSession();
+  if (!s) { location.href = "masuk.html"; }
+
+  const acct = DB.users.find((x) => x.id === s.id) || {};
+  document.getElementById("ban-info").innerHTML =
+    `<b>${acct.name || acct.email}</b> — ${acct.status === "ban" ? "diblokir" : "status: " + (acct.status || "-")}` +
+    (acct.ban_reason ? `<br><span style="font-size:12px">Alasan blokir: ${acct.ban_reason}</span>` : "");
+
+  if (acct.status !== "ban") {
+    document.getElementById("unban-form").style.display = "none";
+    document.getElementById("ban-info").style.background = "#f0fdf4";
+    document.getElementById("ban-info").style.borderColor = "#bbf7d0";
+    document.getElementById("ban-info").style.color = "#15803d";
+  }
+
+  document.getElementById("unban-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("btn-send");
+    btn.disabled = true; btn.textContent = "Mengirim...";
+    try {
+      await api.requestUnban(s.id, document.getElementById("reason").value.trim());
+      UI.toast("Permohonan banding terkirim. Menunggu tinjauan admin.", "success");
+      btn.textContent = "Terkirim ✓";
+    } catch (err) {
+      UI.toast(err.message, "error");
+      btn.disabled = false; btn.textContent = "Kirim Permohonan Banding";
+    }
+  });
+</script>
+</body>
+</html>

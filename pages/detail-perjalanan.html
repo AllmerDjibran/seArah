@@ -18,27 +18,326 @@
   <!-- Leaflet Map CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
 <body>
 
   <div id="navbar-slot"></div>
 
-  <main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+  <main class="wrap">
+    <div class="flow-wrap">
+      <div class="flow-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <h1>Detail Driver &amp; Armada</h1>
+          <span class="pill pill--green" id="trip-badge">Perjalanan Aktif</span>
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--color-muted);margin-bottom:20px">
+          Identitas resmi mitra pengemudi SeArah yang melayani rute perjalanan Anda.
+        </p>
+
+        <!-- Driver Card with Figma Photo -->
+        <div class="driver-card" style="padding:20px;border-radius:14px">
+          <img src="../assets/driver-avatar.png" alt="Driver SeArah" class="driver-card__avatar"
+            style="width:72px;height:72px" onerror="this.src='../assets/paket.png'">
+          <div style="flex:1">
+            <div class="driver-card__name" id="drv-name" style="font-size:var(--text-lg)">Budi Santoso</div>
+            <div class="driver-card__sub" id="drv-vehicle" style="font-size:var(--text-sm)">Toyota HiAce Premio · Plat N
+              7421 KP</div>
+            <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">
+              <span class="pill pill--orange" id="drv-rating">⭐ 4.9 (Mitra Terverifikasi)</span>
+              <span class="pill pill--green">✓ SIM &amp; KTP Valid</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail Perjalanan -->
+        <div style="margin-top:20px">
+          <h3>Informasi Rute &amp; Penjemputan</h3>
+          <div class="flow-row">
+            <span class="label">Rute Shuttle</span>
+            <b class="val" id="trip-route">- → -</b>
+          </div>
+          <div class="flow-row">
+            <span class="label">Jadwal Keberangkatan</span>
+            <b class="val" id="trip-schedule">-</b>
+          </div>
+          <div class="flow-row">
+            <span class="label">Titik Jemput</span>
+            <b class="val" id="trip-pickup">📍 -</b>
+          </div>
+          <div class="flow-row">
+            <span class="label">Titik Drop Off</span>
+            <b class="val" id="trip-dropoff">🏁 -</b>
+          </div>
+          <div class="flow-row">
+            <span class="label">Status Perjalanan</span>
+            <b class="val" id="trip-status" style="color:var(--color-navy)">DIKONFIRMASI</b>
+          </div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap">
+          <button class="btn btn--primary"
+            onclick="UI.toast('Menghubungkan langsung ke WhatsApp driver...', 'success')">
+            💬 Chat WhatsApp Driver
+          </button>
+          <button class="btn btn--ghost" onclick="UI.toast('Menghubungi telepon seluler driver...', 'info')">
+            📞 Telepon Driver
+          </button>
+          <a class="btn btn--ghost" href="pembayaran.html">Hub Pesanan &amp; Invoice</a>
+        </div>
+      </div>
+
+      <!-- SEARAH TripSync Slot -->
+      <div id="tripsync-slot"></div>
+
+      <!-- Rating Section if Finished -->
+      <div class="flow-card" id="rating-section" hidden>
+        <h2>⭐ Beri Rating Pengemudi</h2>
+        <p style="font-size:var(--text-sm);color:var(--color-muted);margin-bottom:12px">
+          Bagikan pengalaman perjalanan Anda bersama pengemudi.
+        </p>
+        <div class="rating-stars" id="stars-wrap">
+          <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span
+            data-v="5">★</span>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label for="review-text">Ulasan Singkat</label>
+          <textarea id="review-text" rows="2" placeholder="Bagaimana performa driver selama perjalanan?"></textarea>
+        </div>
+        <div class="flow-actions" style="margin-top:14px">
+          <button class="btn btn--primary" id="btn-save-rating">Kirim Ulasan</button>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <div id="footer-slot"></div>
 
-  
-  
-  
-  
-  
-  
-  
-<script src="../js/api.js"></script>
-<script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    UI.navbar("auto");
+    UI.footer();
+
+    // Hanya penumpang
+    if (!UI.requirePassenger({ allowGuest: true })) throw new Error("redirect");
+
+    const b = JSON.parse(sessionStorage.getItem("searah_booking") || "null");
+
+    <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/map-service.js"></script>
+  <script src="../js/location-tracker.js"></script>
+  <script>
+      UI.navbar("auto");
+      UI.footer();
+
+      const b = JSON.parse(sessionStorage.getItem("searah_booking") || "null");
+
+      if (!b) {
+        document.querySelector(".flow-card").innerHTML = `
+      <div style="text-align:center;padding:32px">
+        <h2>Pesanan Tidak Ditemukan</h2>
+        <p style="color:var(--color-muted);margin:12px 0 20px">Belum ada data perjalanan dalam sesi Anda saat ini.</p>
+        <a class="btn btn--primary" href="../index.html">Pesan Shuttle</a>
+      </div>`;
+    } else {
+      const q = b.query || { };
+      document.getElementById("drv-name").textContent = b.driver || "Mitra Driver SeArah";
+      document.getElementById("drv-vehicle").textContent = `${b.mobil} · Plat: ${b.plat || "N 7421 KP"}`;
+      document.getElementById("drv-rating").textContent = `⭐ ${b.rating || "4.9"} (Mitra Terverifikasi)`;
+
+      document.getElementById("trip-route").textContent = `${q.asal} → ${q.tujuan}`;
+      document.getElementById("trip-schedule").textContent = `${q.tanggal || "Hari Ini"} pukul ${q.jam || "08:00"} WIB`;
+      document.getElementById("trip-pickup").textContent = `📍 ${b.jemput || `Garasi ${q.asal}`}`;
+      document.getElementById("trip-dropoff").textContent = `🏁 ${b.antar || `Garasi ${q.tujuan}`}`;
+      document.getElementById("trip-status").textContent = b.status.toUpperCase();
+      document.getElementById("trip-badge").textContent = `Status: ${b.status}`;
+
+      /* Render SEARAH TripSync Multi-Stop Rute Tracker with Leaflet */
+      let activeDetailMap = null;
+      renderDetailTripSync();
+
+      function renderDetailTripSync() {
+      const slot = document.getElementById("tripsync-slot");
+      if (!slot) return;
+
+      const coordAsal = MapService.getCityCoord(q.asal || "Kepanjen");
+      const coordTujuan = MapService.getCityCoord(q.tujuan || "Surabaya");
+      const stops = MapService.buildTripSyncStops(b, coordAsal, coordTujuan);
+
+      let curStep = parseInt(sessionStorage.getItem("searah_tripsync_step") || "0", 10);
+      if (isNaN(curStep) || curStep < 0) curStep = 0;
+      if (curStep >= stops.length) curStep = stops.length - 1;
+      const currentStop = stops[curStep];
+
+      slot.innerHTML = `
+      <div class="tripsync-card">
+        <div class="tripsync-header">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:22px">🛰️</span>
+              <h2 style="margin:0;font-size:18px;color:var(--color-navy)">SEARAH TripSync™ Live Rute Multi-Stop (Leaflet Map)</h2>
+              <span class="pill pill--blue" style="font-weight:700">● LIVE GPS ACTIVE</span>
+            </div>
+            <p style="font-size:12px;color:var(--color-muted);margin-top:4px">
+              Transparansi titik jemput &amp; titik drop off seluruh penumpang dalam armada ${b.driver}.
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn--secondary btn--sm" id="btn-detail-tripsync-next">
+              🔄 Simulasikan Gerak Driver ›
+            </button>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);color:#ffffff;padding:12px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#93c5fd">Status Armada Saat Ini:</div>
+            <div style="font-size:14px;font-weight:700;margin-top:2px">
+              🚗 Menuju: <span style="color:#fde047">${currentStop.passenger}</span> (${currentStop.role})
+            </div>
+            <div style="font-size:12px;color:#cbd5e1;margin-top:2px">
+              📍 Lokasi: <b>${currentStop.address}</b> · Estimasi: <b>${currentStop.eta}</b>
+            </div>
+          </div>
+          <div>
+            <span class="pill pill--green" style="background:#15803d;color:#ffffff;border:none">
+              Aktif di Koridor Tol
+            </span>
+          </div>
+        </div>
+
+          <!-- Leaflet Interactive Map -->
+        <div class="tripsync-map-canvas" style="position:relative;border-radius:14px;overflow:hidden;box-shadow:inset 0 2px 10px rgba(0,0,0,0.3)">
+          <div id="detail-tripsync-leaflet-map" style="width:100%;height:360px;background:#0f172a;z-index:1"></div>
+        </div>
+
+        <!-- Legend -->
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;margin:12px 0 6px;padding:8px 12px;background:var(--color-gray-light);border-radius:8px">
+          <b>Keterangan Peta:</b>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#0284c7;display:inline-block"></span> 📍 Titik Jemput Anda
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;display:inline-block"></span> 🧍 Jemput Penumpang Lain
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#16a34a;display:inline-block"></span> 🎯 Drop Off Anda
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#ea580c;display:inline-block"></span> 🏁 Drop Off Penumpang Lain
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#9333ea;display:inline-block"></span> 🛣️ Jalur Tol
+          </span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <button type="button" class="btn btn--secondary btn--sm" id="btn-detail-pax-track" style="font-size:12px">
+            📍 Lacak Posisi Saya Saat Ini (GPS Real-Time)
+          </button>
+          <span id="detail-pax-info" style="font-size:11px;color:var(--color-muted)"></span>
+        </div>
+
+        <div class="tripsync-stops-grid" style="margin-top:16px">
+          ${stops.map((s, idx) => {
+            const isPast = idx < curStep;
+            const isCurrent = idx === curStep;
+            return `
+                <div class="tripsync-stop-row ${s.isUser ? 'is-user' : ''} ${isPast ? 'is-completed' : ''}" style="${isCurrent ? 'border-color:#3b82f6;background:#eff6ff' : ''}">
+                  <div class="tripsync-stop-badge ${s.type === 'pick' ? 'pick' : s.isUser ? 'user-drop' : 'drop'}">
+                    ${isPast ? "✓" : idx + 1}
+                  </div>
+                  <div style="flex:1">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px">
+                      <div>
+                        <b>${s.passenger}</b>
+                        ${s.isUser ? `<span class="pill pill--blue" style="font-size:10px;margin-left:6px">Tiket Anda</span>` : ""}
+                      </div>
+                      <div>
+                        ${isPast ? `<span class="pill pill--gray" style="font-size:11px">✓ Terlewati</span>` : isCurrent ? `<span class="pill pill--green" style="font-size:11px">🚗 Sedang Dituju</span>` : `<span class="pill pill--orange" style="font-size:11px">⏳ Menunggu (${s.eta})</span>`}
+                      </div>
+                    </div>
+                    <div style="font-size:12px;color:var(--color-muted);margin-top:2px">
+                      <b>${s.role}:</b> ${s.address}
+                    </div>
+                  </div>
+                </div>
+              `;
+          }).join("")}
+        </div>
+      </div>
+      `;
+
+      setTimeout(() => {
+        activeDetailMap = MapService.initTripSyncMap("detail-tripsync-leaflet-map", b, { curStep });
+      }, 70);
+
+      let detailPaxMarker = null;
+      document.getElementById("btn-detail-pax-track")?.addEventListener("click", () => {
+        const btn = document.getElementById("btn-detail-pax-track");
+      const info = document.getElementById("detail-pax-info");
+      if (btn) btn.textContent = "🛰️ Menghubungkan GPS...";
+      LocationTracker.startTracking({
+        role: "passenger",
+          onUpdate: (pos) => {
+            if (!pos || !activeDetailMap) return;
+      if (btn) {
+        btn.textContent = "📍 Posisi GPS Anda Aktif";
+      btn.classList.add("btn--primary");
+      btn.classList.remove("btn--secondary");
+            }
+      if (info) {
+        info.textContent = `Akurasi: ±${Math.round(pos.accuracy)}m (${pos.source === 'gps' ? 'GPS Riil' : 'Demo Simulasi'})`;
+            }
+      if (detailPaxMarker) {
+        detailPaxMarker.setLatLng([pos.lat, pos.lng]);
+            } else {
+        detailPaxMarker = LocationTracker.addPassengerMarker(activeDetailMap.map, pos, "Posisi Anda");
+      activeDetailMap.map.panTo([pos.lat, pos.lng]);
+            }
+          }
+        });
+      UI.toast("🛰️ Pelacakan GPS penumpang aktif.", "success");
+      });
+
+      document.getElementById("btn-detail-tripsync-next")?.addEventListener("click", () => {
+        let cur = parseInt(sessionStorage.getItem("searah_tripsync_step") || "0", 10);
+      cur = (cur + 1) % stops.length;
+      sessionStorage.setItem("searah_tripsync_step", cur);
+      UI.toast(`🚗 Armada TripSync menuju: ${stops[cur].passenger} (${stops[cur].role})`, "info");
+      renderDetailTripSync();
+      });
+    }
+
+      if (b.status === "selesai") {
+        const rSec = document.getElementById("rating-section");
+      rSec.hidden = false;
+      let starVal = (api.getRating(b.id))?.nilai || 5;
+      const stars = document.querySelectorAll("#stars-wrap span");
+
+      function updateStars(val) {
+        stars.forEach((s) => s.classList.toggle("active", +s.dataset.v <= val));
+        }
+      updateStars(starVal);
+
+        stars.forEach((s) => s.addEventListener("click", () => {
+        starVal = +s.dataset.v;
+      updateStars(starVal);
+        }));
+
+        document.getElementById("btn-save-rating").addEventListener("click", async () => {
+          const ulasan = document.getElementById("review-text").value;
+      await api.addRating({bookingId: b.id, nilai: starVal, ulasan });
+      UI.toast("Rating berhasil disimpan. Terima kasih!", "success");
+        });
+      }
+    }
+  </script>
 </body>
 
 </html>

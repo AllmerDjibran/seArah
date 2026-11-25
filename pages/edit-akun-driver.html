@@ -20,15 +20,196 @@
 
 <div id="navbar-slot"></div>
 
-<main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+<main class="wrap">
+  <div style="max-width:760px;margin:24px auto 60px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px">
+      <div>
+        <h1 style="margin:0">👤 Edit Akun Mitra Pengemudi</h1>
+        <p style="color:var(--color-muted);font-size:var(--text-sm);margin:4px 0 0">Kelola data identitas pengemudi, armada kendaraan, dan perbarui dokumen operasional.</p>
+      </div>
+      <a href="dashboard-pengemudi.html" class="btn btn--ghost btn--sm">← Dashboard</a>
+    </div>
+
+    <!-- Data Identitas Pribadi -->
+    <div class="flow-card">
+      <h2>📝 Data Identitas Pribadi</h2>
+      <form id="personal-form" style="margin-top:14px" novalidate>
+        <div class="drv-edit-section">
+          <div class="field">
+            <label for="drv-name">Nama Lengkap Sesuai KTP</label>
+            <input id="drv-name" name="name" required placeholder="Ahmad Fauzi">
+          </div>
+          <div class="field">
+            <label for="drv-email">Alamat Email Login</label>
+            <input id="drv-email" name="email" type="email" required placeholder="driver@searah.id">
+          </div>
+          <div class="field">
+            <label for="drv-phone">Nomor WhatsApp Aktif</label>
+            <input id="drv-phone" name="phone" type="tel" placeholder="08xxxxxxxxxx">
+          </div>
+          <div class="field">
+            <label for="drv-nik">Nomor Induk Kependudukan (NIK)</label>
+            <input id="drv-nik" name="nik" placeholder="3507xxxxxxxxxxxx">
+          </div>
+          <div class="field">
+            <label for="drv-sim">Nomor SIM B1 / B2 Umum</label>
+            <input id="drv-sim" name="sim" placeholder="1234-5678-9012">
+          </div>
+          <div class="field">
+            <label for="drv-alamat">Alamat Domisili Jawa Timur</label>
+            <input id="drv-alamat" name="alamat" placeholder="Jl. Raya Malang No. 88, Kepanjen">
+          </div>
+        </div>
+        <button class="btn btn--primary" id="btn-save-personal" style="margin-top:16px" type="button">💾 Simpan Data Pribadi</button>
+      </form>
+    </div>
+
+    <!-- Data Armada Kendaraan -->
+    <div class="flow-card" style="margin-top:20px">
+      <h2>🚗 Data Armada Kendaraan</h2>
+      <form id="vehicle-form" style="margin-top:14px" novalidate>
+        <div class="drv-edit-section">
+          <div class="field">
+            <label for="v-merk">Merk &amp; Tipe Kendaraan</label>
+            <input id="v-merk" name="merk" placeholder="Toyota HiAce Premio">
+          </div>
+          <div class="field">
+            <label for="v-plat">Nomor Plat Polisi</label>
+            <input id="v-plat" name="plat" placeholder="N 7421 KP">
+          </div>
+          <div class="field">
+            <label for="v-tahun">Tahun Kendaraan</label>
+            <input id="v-tahun" name="tahun" type="number" placeholder="2023">
+          </div>
+          <div class="field">
+            <label for="v-warna">Warna Kendaraan</label>
+            <input id="v-warna" name="warna" placeholder="Putih Metalik">
+          </div>
+          <div class="field">
+            <label for="v-kapasitas">Kapasitas Tempat Duduk (Seat)</label>
+            <input id="v-kapasitas" name="kapasitas" type="number" placeholder="7">
+          </div>
+          <div class="field">
+            <label for="v-stnk">Nomor Registrasi STNK</label>
+            <input id="v-stnk" name="stnk" placeholder="12345678/STNK/2023">
+          </div>
+        </div>
+        <button class="btn btn--primary" id="btn-save-vehicle" style="margin-top:16px" type="button">💾 Simpan Data Kendaraan</button>
+      </form>
+    </div>
+
+    <!-- Status & Unggah Dokumen -->
+    <div class="flow-card" style="margin-top:20px">
+      <h2>📎 Dokumen Legalitas &amp; Uji Kelayakan</h2>
+      <p style="font-size:var(--text-sm);color:var(--color-muted);margin-top:2px">Dokumen terverifikasi oleh Administrator SeArah untuk menjamin keamanan penumpang.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px;margin-top:14px">
+        <div style="border:1.5px dashed var(--color-border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#fafafa" onclick="uploadDoc('KTP')">
+          <div style="font-size:26px;margin-bottom:4px">🪪</div>
+          <div style="font-weight:700;font-size:12px;color:var(--color-navy)">KTP Asli</div>
+          <div style="font-size:10px;color:var(--color-muted);margin-top:2px">Klik untuk ganti</div>
+          <span class="pill pill--green" style="margin-top:8px;display:inline-block;font-size:10px" id="doc-ktp-status">✓ Terverifikasi</span>
+        </div>
+        <div style="border:1.5px dashed var(--color-border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#fafafa" onclick="uploadDoc('SIM')">
+          <div style="font-size:26px;margin-bottom:4px">🪪</div>
+          <div style="font-weight:700;font-size:12px;color:var(--color-navy)">SIM B1 / B2</div>
+          <div style="font-size:10px;color:var(--color-muted);margin-top:2px">Klik untuk ganti</div>
+          <span class="pill pill--green" style="margin-top:8px;display:inline-block;font-size:10px" id="doc-sim-status">✓ Terverifikasi</span>
+        </div>
+        <div style="border:1.5px dashed var(--color-border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#fafafa" onclick="uploadDoc('STNK')">
+          <div style="font-size:26px;margin-bottom:4px">📄</div>
+          <div style="font-weight:700;font-size:12px;color:var(--color-navy)">STNK Mobil</div>
+          <div style="font-size:10px;color:var(--color-muted);margin-top:2px">Klik untuk ganti</div>
+          <span class="pill pill--green" style="margin-top:8px;display:inline-block;font-size:10px" id="doc-stnk-status">✓ Terverifikasi</span>
+        </div>
+        <div style="border:1.5px dashed var(--color-border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#fafafa" onclick="uploadDoc('KIR')">
+          <div style="font-size:26px;margin-bottom:4px">📋</div>
+          <div style="font-weight:700;font-size:12px;color:var(--color-navy)">Uji KIR Berkala</div>
+          <div style="font-size:10px;color:var(--color-muted);margin-top:2px">Klik untuk unggah</div>
+          <span class="pill pill--green" style="margin-top:8px;display:inline-block;font-size:10px" id="doc-kir-status">✓ Terverifikasi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  // Alur khusus pengemudi
+  if (!UI.requireDriver()) throw new Error("redirect");
+
+  const s = api.getSession();
+  if (!s || s.role !== "pengemudi") {
+    location.href = "masuk.html";
+  }
+
+  const drvName = s ? (s.name || s.email.split("@")[0]) : "Ahmad Fauzi";
+  document.getElementById("drv-name").value = drvName;
+  document.getElementById("drv-email").value = s ? s.email : "ahmad.driver@searah.id";
+
+  // Muat data tersimpan
+  const savedData = JSON.parse(sessionStorage.getItem("searah_driver_profile") || "{}");
+  document.getElementById("drv-phone").value = savedData.phone || "081234567890";
+  document.getElementById("drv-nik").value = savedData.nik || "3507012304910002";
+  document.getElementById("drv-sim").value = savedData.sim || "9102-1234-5678";
+  document.getElementById("drv-alamat").value = savedData.alamat || "Jl. Raya Malang - Kepanjen No. 45";
+
+  document.getElementById("v-merk").value = savedData.merk || "Toyota HiAce Premio";
+  document.getElementById("v-plat").value = savedData.plat || "N 7421 KP";
+  document.getElementById("v-tahun").value = savedData.tahun || "2023";
+  document.getElementById("v-warna").value = savedData.warna || "Putih Metalik";
+  document.getElementById("v-kapasitas").value = savedData.kapasitas || "7";
+  document.getElementById("v-stnk").value = savedData.stnk || "STNK-2023-998811";
+
+  document.getElementById("btn-save-personal").addEventListener("click", async () => {
+    const form = document.getElementById("personal-form");
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+
+    if (!name) { UI.toast("Nama lengkap wajib diisi.", "warning"); return; }
+    if (!email) { UI.toast("Email wajib diisi.", "warning"); return; }
+
+    await api.updateProfile({ name, email });
+    
+    const data = {
+      ...savedData,
+      phone: form.phone.value.trim(),
+      nik: form.nik.value.trim(),
+      sim: form.sim.value.trim(),
+      alamat: form.alamat.value.trim()
+    };
+    sessionStorage.setItem("searah_driver_profile", JSON.stringify(data));
+    UI.toast("✅ Data pribadi pengemudi berhasil diperbarui!", "success");
+  });
+
+  document.getElementById("btn-save-vehicle").addEventListener("click", () => {
+    const form = document.getElementById("vehicle-form");
+    const data = {
+      ...JSON.parse(sessionStorage.getItem("searah_driver_profile") || "{}"),
+      merk: form.merk.value.trim(),
+      plat: form.plat.value.trim(),
+      tahun: form.tahun.value.trim(),
+      warna: form.warna.value.trim(),
+      kapasitas: form.kapasitas.value.trim(),
+      stnk: form.stnk.value.trim()
+    };
+    sessionStorage.setItem("searah_driver_profile", JSON.stringify(data));
+    UI.toast("✅ Data armada kendaraan berhasil diperbarui!", "success");
+  });
+
+  window.uploadDoc = function(jenis) {
+    UI.toast(`📎 Berhasil memperbarui dokumen ${jenis}. Admin segera memverifikasi.`, "success");
+    const el = document.getElementById(`doc-${jenis.toLowerCase()}-status`);
+    if (el) {
+      el.textContent = "⏳ Verifikasi Ulang";
+      el.className = "pill pill--orange";
+    }
+  };
+</script>
 </body>
 </html>

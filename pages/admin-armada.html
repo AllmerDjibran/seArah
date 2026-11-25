@@ -18,15 +18,158 @@
 
 <div id="navbar-slot"></div>
 
-<main class="wrap"><section class="flow-card" id="app" style="max-width:1040px;margin:24px auto 60px"><p>Memuat data server...</p></section></main>
+<main class="wrap">
+  <div style="max-width:1040px;margin:24px auto 60px">
+    <div class="flow-card">
+      <h1 style="margin:0 0 4px">🚗 Data Mobil &amp; Letak Driver</h1>
+      <p style="font-size:var(--text-sm);color:var(--color-muted);margin:0 0 16px">
+        Pantau mobil di tiap garasi per wilayah, pindahkan posisinya, dan lihat driver aktif di wilayah Anda.
+      </p>
+
+      <!-- ===== Mobil per Garasi / Wilayah ===== -->
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0 8px">
+        <h2 style="font-size:var(--text-lg);color:var(--color-navy);margin:0;flex:1 1 auto">Mobil per Garasi / Wilayah</h2>
+        <input id="garage-search" type="search" placeholder="Cari mobil / pelat / wilayah..." style="padding:8px 12px;border-radius:8px;border:1.5px solid var(--color-border);font-family:inherit;font-size:13px;min-width:220px">
+        <select id="garage-region" style="padding:8px 10px;border-radius:8px;border:1.5px solid var(--color-border);font-family:inherit;font-size:13px">
+          <option value="all">Semua Wilayah</option>
+          <option value="I">Wilayah I</option>
+          <option value="II">Wilayah II</option>
+          <option value="III">Wilayah III</option>
+          <option value="IV">Wilayah IV</option>
+        </select>
+      </div>
+      <div id="armada-garages" style="display:flex;flex-direction:column;gap:12px"></div>
+
+      <!-- ===== Driver per Wilayah ===== -->
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:24px 0 8px">
+        <h2 style="font-size:var(--text-lg);color:var(--color-navy);margin:0;flex:1 1 auto">Driver per Wilayah</h2>
+        <input id="driver-search" type="search" placeholder="Cari driver / wilayah..." style="padding:8px 12px;border-radius:8px;border:1.5px solid var(--color-border);font-family:inherit;font-size:13px;min-width:220px">
+        <select id="driver-region" style="padding:8px 10px;border-radius:8px;border:1.5px solid var(--color-border);font-family:inherit;font-size:13px">
+          <option value="all">Semua Wilayah</option>
+          <option value="I">Wilayah I</option>
+          <option value="II">Wilayah II</option>
+          <option value="III">Wilayah III</option>
+          <option value="IV">Wilayah IV</option>
+        </select>
+      </div>
+      <p style="font-size:12px;color:var(--color-muted);margin:0 0 8px">Menampilkan driver <b>Disetujui</b> &amp; <b>Peringatan</b> saja. Driver peringatan ditampilkan di bawah.</p>
+      <div id="armada-drivers" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+  </div>
+</main>
 
 <div id="footer-slot"></div>
 
-
-
-
 <script src="../js/api.js"></script>
 <script src="../js/ui.js"></script>
-<script src="../js/frontend.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  if (!UI.requireAdmin()) throw new Error("redirect");
+
+  const REGIONS = {
+    "I": "Wilayah I (Gerbangkertosusila & Madura)",
+    "II": "Wilayah II (Tapal Kuda & Pantura Timur)",
+    "III": "Wilayah III (Malang Raya & Mataraman)",
+    "IV": "Wilayah IV (Jombang & Pantura Barat)",
+  };
+
+  const gSearch = document.getElementById("garage-search");
+  const gRegion = document.getElementById("garage-region");
+  const dSearch = document.getElementById("driver-search");
+  const dRegion = document.getElementById("driver-region");
+
+  function renderGarages() {
+    const data = api.listArmada();
+    const q = (gSearch.value || "").toLowerCase();
+    const reg = gRegion.value;
+    let garages = data.garages;
+    if (reg !== "all") garages = garages.filter((g) => g.region === reg);
+    if (q) {
+      garages = garages.filter((g) => {
+        const hay = (g.city + " " + g.region + " " + (REGIONS[g.region] || "") + " " +
+          g.vehicles.map((v) => v.plate + " " + v.model + " " + v.paket).join(" ")).toLowerCase();
+        return hay.includes(q);
+      });
+    }
+
+    const byRegion = {};
+    garages.forEach((g) => { (byRegion[g.region] = byRegion[g.region] || []).push(g); });
+
+    const el = document.getElementById("armada-garages");
+    if (!Object.keys(byRegion).length) { el.innerHTML = `<div style="padding:24px;text-align:center;color:var(--color-muted)">Tidak ada mobil/garasi yang cocok.</div>`; return; }
+
+    el.innerHTML = Object.keys(byRegion).sort().map((r) => `
+      <div style="border:1.5px solid var(--color-border);border-radius:12px;padding:14px;background:var(--color-white)">
+        <div class="pill pill--blue" style="margin-bottom:8px">${REGIONS[r] || ("Wilayah " + r)}</div>
+        ${byRegion[r].map((g) => `
+          <div style="margin:8px 0;padding:10px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-card)">
+            <b style="color:var(--color-navy)">🏢 ${g.city} (${g.region})</b>
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">
+              ${g.vehicles.length ? g.vehicles.map((v) => `
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+                  <span style="font-size:13px">🚐 <b>${v.model}</b> · <code>${v.plate}</code> · ${v.paket} · ${v.status}</span>
+                  <select data-move="${v.id}" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1.5px solid var(--color-border);font-family:Montserrat">
+                    ${data.garages.map((gg) => `<option value="${gg.id}" ${gg.id === v.garage_id ? "selected" : ""}>${gg.city} (${gg.region})</option>`).join("")}
+                  </select>
+                </div>
+              `).join("") : `<span style="font-size:12px;color:var(--color-muted)">Belum ada mobil di garasi ini.</span>`}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `).join("");
+
+    el.querySelectorAll("[data-move]").forEach((sel) => {
+      sel.addEventListener("change", async () => {
+        await api.moveVehicle(sel.dataset.move, sel.value);
+        UI.toast("Posisi mobil diperbarui.", "success");
+        renderGarages();
+      });
+    });
+  }
+
+  function renderDrivers() {
+    const data = api.listArmada();
+    const q = (dSearch.value || "").toLowerCase();
+    const reg = dRegion.value;
+
+    let list = [];
+    Object.keys(data.driverRegions).forEach((rg) => data.driverRegions[rg].forEach((d) => list.push({ ...d, region: rg })));
+    // hanya disetujui & peringatan
+    list = list.filter((d) => d.status === "disetujui" || d.status === "peringatan");
+    if (reg !== "all") list = list.filter((d) => d.region === reg);
+    if (q) list = list.filter((d) => (d.name + " " + d.region + " " + (REGIONS[d.region] || "")).toLowerCase().includes(q));
+
+    // sort: netral (disetujui) dulu, peringatan di bawah; lalu nama
+    const weight = (x) => (x.status === "peringatan" ? 1 : 0);
+    list.sort((a, b) => weight(a) - weight(b) || a.name.localeCompare(b.name));
+
+    const byReg = {};
+    list.forEach((d) => { (byReg[d.region] = byReg[d.region] || []).push(d); });
+
+    const el = document.getElementById("armada-drivers");
+    if (!Object.keys(byReg).length) { el.innerHTML = `<div style="padding:24px;text-align:center;color:var(--color-muted)">Tidak ada driver yang cocok.</div>`; return; }
+
+    el.innerHTML = Object.keys(byReg).sort().map((r) => `
+      <div style="border:1.5px solid var(--color-border);border-radius:12px;padding:14px;background:var(--color-white)">
+        <div class="pill pill--green" style="margin-bottom:8px">${REGIONS[r] || ("Wilayah " + r)} · ${byReg[r].length} driver</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${byReg[r].map((d) => {
+            const label = d.status === "peringatan" ? `${d.name} (peringatan)` : d.name;
+            const cls = d.status === "peringatan" ? "pill pill--orange" : "pill pill--gray";
+            return `<span class="${cls}" style="font-size:12px">👤 ${label}</span>`;
+          }).join("")}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function render() { renderGarages(); renderDrivers(); }
+  [gSearch, dSearch].forEach((i) => i.addEventListener("input", render));
+  [gRegion, dRegion].forEach((s) => s.addEventListener("change", render));
+  render();
+</script>
 </body>
 </html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design System &amp; Komponen — SeArah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/typography.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/contact.css">
+<style>
+  .demo-block { padding: 28px 0; border-bottom: 1px dashed var(--color-border); }
+  .demo-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+</style>
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<main class="wrap">
+  <section class="section">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+      <img src="../assets/logo.png" alt="SeArah" style="width:40px;height:40px">
+      <h1 class="section__title" style="margin:0">Design System &amp; Komponen UI SeArah</h1>
+    </div>
+    <p style="color:var(--color-muted);margin-bottom:24px">
+      Kompilasi komponen antarmuka yang diselaraskan dengan Figma Mockup SeArah, Prototipe NusaShuttle, dan Dokumen Perencanaan Travel Shuttle.
+    </p>
+
+    <!-- Tombol -->
+    <div class="demo-block">
+      <h3>1. Tombol (Buttons)</h3>
+      <div class="demo-row">
+        <button class="btn btn--primary">Primary Navy</button>
+        <button class="btn btn--secondary">Secondary Blue</button>
+        <button class="btn btn--accent">Accent Warning</button>
+        <button class="btn btn--ghost">Ghost Outline</button>
+        <button class="btn btn--danger">Danger Action</button>
+        <button class="btn btn--primary" disabled>Disabled State</button>
+        <button class="btn btn--primary btn--lg">Large Button</button>
+      </div>
+    </div>
+
+    <!-- Badge & Pill -->
+    <div class="demo-block">
+      <h3>2. Badges &amp; Tags</h3>
+      <div class="demo-row">
+        <span class="pill pill--blue">Pill Blue / Info</span>
+        <span class="pill pill--green">✓ Pill Green / Success</span>
+        <span class="pill pill--orange">⭐ Pill Orange / Warning</span>
+        <span class="pill pill--gray">Pill Gray / Neutral</span>
+        <span class="badge-pending">Status Draf / Menyusul</span>
+      </div>
+    </div>
+
+    <!-- Form Field -->
+    <div class="demo-block">
+      <h3>3. Form Inputs &amp; Controls</h3>
+      <div class="demo-row" style="max-width:540px">
+        <div class="field" style="width:100%">
+          <label for="d1">Email Penumpang</label>
+          <input id="d1" type="email" placeholder="nama@email.com" value="penumpang@searah.id">
+        </div>
+        <div class="field" style="width:100%">
+          <label for="d2">Pilihan Jumlah Kursi</label>
+          <select id="d2">
+            <option>1 Kursi</option>
+            <option>2 Kursi</option>
+            <option>3 Kursi</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="demo-block">
+      <h3>4. Stepper Progress Indicator</h3>
+      <div id="stepper-demo-1" style="margin:16px 0"></div>
+      <div id="stepper-demo-2" style="margin:16px 0"></div>
+    </div>
+
+    <!-- Toast & Modal Demo -->
+    <div class="demo-block">
+      <h3>5. Notifikasi Interaktif (Toast &amp; Modal)</h3>
+      <div class="demo-row">
+        <button class="btn btn--secondary" onclick="UI.toast('Contoh toast sukses!', 'success')">Tes Toast Sukses</button>
+        <button class="btn btn--secondary" onclick="UI.toast('Contoh toast error!', 'error')">Tes Toast Error</button>
+        <button class="btn btn--ghost" onclick="testModal()">Tes Dialog Modal</button>
+      </div>
+    </div>
+
+    <!-- Floating Contact Icons Preview -->
+    <div class="demo-block">
+      <h3>6. Ikon Kontak Resmi Figma</h3>
+      <div class="demo-row">
+        <div style="display:flex;align-items:center;gap:12px;background:var(--color-card);padding:14px;border-radius:12px">
+          <img src="../assets/icon-wa.png" alt="WhatsApp" style="width:40px;height:40px">
+          <img src="../assets/icon-ig.png" alt="Instagram" style="width:40px;height:40px">
+          <img src="../assets/icon-tiktok.png" alt="TikTok" style="width:40px;height:40px">
+          <img src="../assets/icon-cs.png" alt="Customer Service" style="width:40px;height:40px">
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="footer-slot"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+  UI.navbar("auto");
+  UI.footer();
+
+  document.getElementById("stepper-demo-1").innerHTML = UI.stepper(["Pencarian", "Checkout", "Pembayaran"], 1);
+  document.getElementById("stepper-demo-2").innerHTML = UI.stepper(["Akun Baru", "Unggah Dokumen", "Verifikasi Admin"], 2);
+
+  function testModal() {
+    UI.modal({
+      title: "Contoh Dialog Modal",
+      content: "Dialog modal modern ini digunakan untuk konfirmasi pembatalan atau penolakan verifikasi driver.",
+      confirmText: "Mengerti",
+      cancelText: "Tutup"
+    });
+  }
+</script>
+</body>
+</html>

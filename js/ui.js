@@ -125,7 +125,9 @@ const UI = {
         if (!dd.contains(e.target) && !tog.contains(e.target)) { dd.hidden = true; tog.setAttribute("aria-expanded", "false"); }
       });
       document.getElementById("dd-logout").addEventListener("click", () => {
-        api.logout().catch(err => UI.toast(err.message, "error"));
+        api.logout();
+        UI.toast("Berhasil keluar dari akun.", "info");
+        setTimeout(() => { location.href = ROOT + "index.html"; }, 300);
       });
     } else {
       el.innerHTML = `
@@ -229,7 +231,7 @@ const UI = {
     const t = document.createElement("div");
     t.className = `toast toast--${type}`;
     const icon = type === "success" ? "✅" : type === "error" ? "❌" : type === "warning" ? "⚠️" : "ℹ️";
-    t.textContent = message;
+    t.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
     container.appendChild(t);
     setTimeout(() => { t.style.opacity = "0"; t.style.transform = "translateY(10px)"; setTimeout(() => t.remove(), 250); }, duration);
   },
@@ -293,7 +295,7 @@ const UI = {
   validators: {
     email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
     phone: (v) => /^(\+62|62|0)8[1-9][0-9]{6,11}$/.test(v.replace(/[\s-]/g, "")),
-    password: (v) => new TextEncoder().encode(v || "").length >= 8 && new TextEncoder().encode(v || "").length <= 72,
+    password: (v) => (v || "").length >= 6,
   },
 
   fieldError(input, msg) {
@@ -322,7 +324,4 @@ const UI = {
   },
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
-  try { await api.ready; } catch (err) { UI.toast(err.message, "error"); }
-  UI.navbar("auto"); UI.footer(); UI.contactCorner();
-});
+document.addEventListener("DOMContentLoaded", () => { UI.contactCorner(); });
