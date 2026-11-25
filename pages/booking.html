@@ -31,19 +31,6 @@
       <span class="pill pill--blue" id="paket-badge">Paket Reguler</span>
     </div>
 
-    <!-- Pilihan Tab Paket Layanan (Seperti di Beranda) -->
-    <div class="tabs" role="tablist" id="booking-paket-tabs">
-      <button type="button" class="tab" role="tab" aria-selected="true" data-paket="reguler">
-        <span>🚐</span> <span>Reguler (Garasi)</span>
-      </button>
-      <button type="button" class="tab" role="tab" aria-selected="false" data-paket="door-to-door">
-        <span>🚪</span> <span>Door to Door</span>
-      </button>
-      <button type="button" class="tab" role="tab" aria-selected="false" data-paket="private">
-        <span>⭐</span> <span>Private Eksklusif</span>
-      </button>
-    </div>
-
     <!-- Form Kontrol: Kota Asal, Swap, Kota Tujuan, Tanggal, Jam, Penumpang -->
     <form id="booking-filter-form" onsubmit="event.preventDefault(); applyRouteFilter(true);">
       <div class="booking-filter-grid">
@@ -430,11 +417,6 @@
     if (fJam) fJam.value = jam;
     if (fJumlah) fJumlah.value = jumlah;
 
-    // Update Top Tabs
-    document.querySelectorAll("#booking-paket-tabs .tab").forEach((btn) => {
-      btn.setAttribute("aria-selected", btn.dataset.paket === curPaket);
-    });
-
     // Update Tab Note
     const tabNote = document.getElementById("tab-note");
     if (tabNote) {
@@ -537,17 +519,6 @@
     });
   }
 
-  /* Top tabs switcher */
-  document.querySelectorAll("#booking-paket-tabs .tab").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      curPaket = btn.dataset.paket;
-      curRoad = curPaket === "private" ? "tol" : "biasa";
-      selectedCar = null;
-      applyRouteFilter(false);
-      UI.toast(`Beralih ke Paket ${PAKET_CONFIG[curPaket].name}`, "info");
-    });
-  });
-
   /* Road switcher */
   document.querySelectorAll("#road-tabs .road-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -594,12 +565,6 @@
                 <div style="font-size:13px;color:var(--color-muted);margin-top:6px;line-height:1.4">
                   📍 Jl. Raya ${asal} No. 45, Area Terminal &amp; Transit Kota ${asal}
                 </div>
-                <div class="garage-features-list">
-                  <span>❄️ Ruang AC</span>
-                  <span>⚡ Charger</span>
-                  <span>🕌 Musholla</span>
-                  <span>🅿️ Parkir Inap</span>
-                </div>
               </div>
               <button type="button" class="btn btn--secondary btn--sm" onclick="openGarageModal('asal', '${asal}')">
                 🗺️ Lihat Titik Garasi Asal di Peta
@@ -615,12 +580,6 @@
                 </div>
                 <div style="font-size:13px;color:var(--color-muted);margin-top:6px;line-height:1.4">
                   🏁 Jl. Transit Utama No. 88, Area Pool SeArah Kota ${tujuan}
-                </div>
-                <div class="garage-features-list">
-                  <span>❄️ Ruang AC</span>
-                  <span>🚻 Toilet</span>
-                  <span>📶 Wi-Fi</span>
-                  <span>☕ Lounge</span>
                 </div>
               </div>
               <button type="button" class="btn btn--secondary btn--sm" onclick="openGarageModal('tujuan', '${tujuan}')">
@@ -880,17 +839,7 @@
           </div>
 
           <div style="padding:16px 20px">
-            <div style="font-size:12px;font-weight:700;color:var(--color-navy);margin-bottom:8px">Fasilitas Garasi Pool Resmi SeArah:</div>
-            <div class="garage-features-list">
-              <span>❄️ Ruang Tunggu AC</span>
-              <span>⚡ Charging Station</span>
-              <span>🕌 Musholla</span>
-              <span>🚻 Toilet Bersih</span>
-              <span>📶 Wi-Fi Gratis</span>
-              <span>☕ Air Mineral</span>
-              <span>🅿️ Parkir Inap Aman</span>
-            </div>
-            <div style="margin-top:14px;background:#fffbeb;border:1px solid #fde68a;padding:10px 12px;border-radius:8px;font-size:12px;color:#92400e;line-height:1.5">
+            <div style="background:#fffbeb;border:1px solid #fde68a;padding:10px 12px;border-radius:8px;font-size:12px;color:#92400e;line-height:1.5">
               ⏰ <b>Panduan Keberangkatan:</b> Silakan tiba di garasi pool minimal 15 menit sebelum jadwal keberangkatan untuk pemeriksaan tiket dan bagasi.
             </div>
           </div>

@@ -22,6 +22,12 @@
   <!-- Hero Section (Figma & Traveloka Style) -->
   <section class="hero">
     <div class="wrap">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="hero-badge">
+          <span class="hero-badge__dot"></span>
+          Platform Travel &amp; Shuttle Antar Kota Resmi Jawa Timur
+        </span>
+      </div>
       <h1>Perjalanan Antar Kota, Aman &amp; Nyaman</h1>
       <p>Pilih paket Reguler, Door to Door, atau Private. Driver terverifikasi mitra resmi, armada prima, dilindungi asuransi perjalanan.</p>
 
@@ -41,7 +47,12 @@
 
         <div class="fields">
           <div class="field">
-            <label for="asal">Kota Asal (Jawa Timur)</label>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <label for="asal" style="margin-bottom:0">Kota Asal (Jawa Timur)</label>
+              <button type="button" class="btn-swap-text" id="btn-swap-cities" title="Tukar Kota Asal &amp; Tujuan">
+                ⇄ Tukar
+              </button>
+            </div>
             <select id="asal" name="asal" required>
               <optgroup label="Wilayah III (Malang Raya & Mataraman)">
                 <option value="Kepanjen" selected>Kepanjen (Malang)</option>
@@ -159,9 +170,20 @@
             🔍 Cari Perjalanan
           </button>
         </div>
+
+        <!-- Rute Populer Quick Chips -->
+        <div class="popular-routes">
+          <span class="popular-routes__label">⚡ Rute Populer:</span>
+          <button type="button" class="route-chip" data-asal="Kepanjen" data-tujuan="Surabaya">Kepanjen ⇄ Surabaya</button>
+          <button type="button" class="route-chip" data-asal="Malang" data-tujuan="Surabaya">Malang ⇄ Surabaya</button>
+          <button type="button" class="route-chip" data-asal="Batu" data-tujuan="Sidoarjo">Batu ⇄ Sidoarjo</button>
+          <button type="button" class="route-chip" data-asal="Kediri" data-tujuan="Surabaya">Kediri ⇄ Surabaya</button>
+          <button type="button" class="route-chip" data-asal="Blitar" data-tujuan="Malang">Blitar ⇄ Malang</button>
+        </div>
       </form>
     </div>
   </section>
+
 
   <!-- Paket Layanan (Figma Cards) -->
   <div class="wrap">
@@ -342,6 +364,58 @@
         </div>
       </div>
     </section>
+
+    <!-- Testimoni Penumpang (Customer Stories) -->
+    <section class="section" id="testimoni">
+      <div class="section__header">
+        <h2 class="section__title">Kata Penumpang Tentang SeArah</h2>
+        <p class="section__subtitle">Pengalaman nyata dari ribuan penumpang yang mempercayakan perjalanan antar kota bersama SeArah.</p>
+      </div>
+
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Sangat terbantu untuk dinas rutin Kepanjen - Surabaya tiap minggu. Driver jemput tepat waktu, mobilnya bersih dan rute tolnya cepat tanpa transit ribet."</p>
+          </div>
+          <div class="testi-author">
+            <div class="testi-avatar">RP</div>
+            <div>
+              <b class="testi-name">Rendra Pratama</b>
+              <span class="testi-role">Kepanjen → Surabaya · Paket Reguler</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Biasanya was-was kalau naik travel malam sendirian, tapi di SeArah ada foto driver dan plat mobil langsung di HP. Sangat transparan dan bikin tenang!"</p>
+          </div>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg, #ec4899, #f43f5e)">AR</div>
+            <div>
+              <b class="testi-name">Anisa Rahmawati</b>
+              <span class="testi-role">Malang → Juanda/Sidoarjo · Door to Door</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Pesan Paket Private buat rombongan keluarga 6 orang ke acara nikahan di Surabaya. Praktis banget, satu mobil khusus keluarga sendiri tanpa gabung orang lain."</p>
+          </div>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg, #10b981, #059669)">BS</div>
+            <div>
+              <b class="testi-name">Budi Santoso</b>
+              <span class="testi-role">Kota Batu → Surabaya · Private Shuttle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -358,6 +432,30 @@
   const today = new Date().toISOString().split("T")[0];
   dateInput.min = today;
   dateInput.value = today;
+
+  /* Handler Tombol Tukar Rute */
+  const swapBtn = document.getElementById("btn-swap-cities");
+  if (swapBtn) {
+    swapBtn.addEventListener("click", () => {
+      const asalSelect = document.getElementById("asal");
+      const tujuanSelect = document.getElementById("tujuan");
+      const tmp = asalSelect.value;
+      asalSelect.value = tujuanSelect.value;
+      tujuanSelect.value = tmp;
+      UI.toast(`Rute ditukar: ${asalSelect.value} ⇄ ${tujuanSelect.value}`, "info");
+    });
+  }
+
+  /* Handler Rute Populer Chips */
+  document.querySelectorAll(".route-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const asalSelect = document.getElementById("asal");
+      const tujuanSelect = document.getElementById("tujuan");
+      asalSelect.value = chip.dataset.asal;
+      tujuanSelect.value = chip.dataset.tujuan;
+      UI.toast(`Rute dipilih: ${chip.dataset.asal} → ${chip.dataset.tujuan}`, "success");
+    });
+  });
 
   /* Tab switching */
   let selectedPaket = "reguler";

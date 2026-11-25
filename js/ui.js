@@ -24,6 +24,30 @@ const UI = {
     const u = api.getSession();
     const isLogin = mode === "login" || (mode === "auto" && !!u);
 
+    const path = location.pathname.replace(/\\/g, "/");
+    const isHome = path.endsWith("index.html") || path.endsWith("/") || (!path.includes("/pages/"));
+    const isBooking = path.includes("booking.html");
+
+    const navLinksHtml = `
+      <nav class="navbar__nav">
+        <a href="${ROOT}index.html" class="navbar__link ${isHome ? 'is-active' : ''}">
+          ${isHome ? '<span class="navbar__dot">•</span>' : ''}Beranda
+        </a>
+        <a href="${ROOT}pages/booking.html" class="navbar__link ${isBooking ? 'is-active' : ''}">
+          ${isBooking ? '<span class="navbar__dot">•</span>' : ''}Cari Travel
+        </a>
+        <a href="${ROOT}index.html#paket" class="navbar__link">
+          Paket
+        </a>
+        <a href="${ROOT}index.html#kenapa" class="navbar__link">
+          Keunggulan
+        </a>
+        <a href="javascript:void(0)" onclick="UI.toast('Hubungi CS SeArah 24/7 di WhatsApp: 0812-3456-7890', 'info')" class="navbar__link">
+          Kontak
+        </a>
+      </nav>
+    `;
+
     if (isLogin && u) {
       const initial = (u.name || u.email || "?").charAt(0).toUpperCase();
       const roleName = u.role === "pengemudi" ? "Pengemudi" : u.role === "admin" ? "Admin" : "Penumpang";
@@ -34,9 +58,10 @@ const UI = {
         <header class="navbar">
           <div class="wrap">
             <a class="navbar__brand" href="${ROOT}index.html">
-              <img src="${ROOT}assets/logo.png" alt="Logo SeArah" class="navbar__logo-img">
+              <img src="${ROOT}assets/logofix.png" onerror="this.src='${ROOT}assets/logofix.jpg'" alt="Logo SeArah" class="navbar__logo-img">
               <span class="navbar__logo">SeArah</span>
             </a>
+            ${navLinksHtml}
             <div class="navbar__user">
               <div class="navbar__avatar">${initial}</div>
               <div class="navbar__user-info" style="cursor:pointer" id="dd-toggle" role="button" aria-expanded="false" tabindex="0">
@@ -97,16 +122,32 @@ const UI = {
         <header class="navbar">
           <div class="wrap">
             <a class="navbar__brand" href="${ROOT}index.html">
-              <img src="${ROOT}assets/logo.png" alt="Logo SeArah" class="navbar__logo-img">
+              <img src="${ROOT}assets/logofix.png" onerror="this.src='${ROOT}assets/logofix.jpg'" alt="Logo SeArah" class="navbar__logo-img">
               <span class="navbar__logo">SeArah</span>
             </a>
-            <nav class="navbar__btns">
-              <button class="btn btn--ghost btn--nav" onclick="location.href='${ROOT}pages/masuk.html'">Masuk</button>
-              <button class="btn btn--accent btn--nav" onclick="location.href='${ROOT}pages/daftar.html'">Daftar</button>
-            </nav>
+            ${navLinksHtml}
+            <div class="navbar__actions">
+              <button class="navbar__btn-outline" onclick="location.href='${ROOT}pages/masuk.html'">Masuk</button>
+              <button class="navbar__btn-accent" onclick="location.href='${ROOT}pages/daftar.html'">Daftar</button>
+            </div>
           </div>
         </header>`;
     }
+
+    // Scroll listener untuk efek floating island pill navbar
+    const updateNavbarScroll = () => {
+      const header = el.querySelector(".navbar");
+      if (!header) return;
+      if (window.scrollY > 30) {
+        el.classList.add("has-scrolled");
+        header.classList.add("is-scrolled");
+      } else {
+        el.classList.remove("has-scrolled");
+        header.classList.remove("is-scrolled");
+      }
+    };
+    window.addEventListener("scroll", updateNavbarScroll, { passive: true });
+    updateNavbarScroll();
   },
 
   /* Footer resmi SeArah */
@@ -119,7 +160,7 @@ const UI = {
           <div class="footer__grid">
             <div>
               <div class="footer__brand">
-                <img src="${ROOT}assets/logo.png" alt="Logo SeArah">
+                <img src="${ROOT}assets/logofix.png" onerror="this.src='${ROOT}assets/logofix.jpg'" alt="Logo SeArah">
                 <span class="footer__brand-name">SeArah</span>
               </div>
               <p style="max-width:340px;line-height:1.6;margin-bottom:16px">
