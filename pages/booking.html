@@ -30,20 +30,7 @@
       </h1>
       <span class="pill pill--blue" id="paket-badge">Paket Reguler</span>
     </div>
-
-    <!-- Pilihan Tab Paket Layanan (Seperti di Beranda) -->
-    <div class="tabs" role="tablist" id="booking-paket-tabs">
-      <button type="button" class="tab" role="tab" aria-selected="true" data-paket="reguler">
-        <span>🚐</span> <span>Reguler (Garasi)</span>
-      </button>
-      <button type="button" class="tab" role="tab" aria-selected="false" data-paket="door-to-door">
-        <span>🚪</span> <span>Door to Door</span>
-      </button>
-      <button type="button" class="tab" role="tab" aria-selected="false" data-paket="private">
-        <span>⭐</span> <span>Private Eksklusif</span>
-      </button>
-    </div>
-
+    
     <!-- Form Kontrol: Kota Asal, Swap, Kota Tujuan, Tanggal, Jam, Penumpang -->
     <form id="booking-filter-form" onsubmit="event.preventDefault(); applyRouteFilter(true);">
       <div class="booking-filter-grid">
@@ -532,7 +519,7 @@
             <span>🏢</span> <span>Titik Keberangkatan &amp; Garasi Pool Resmi</span>
           </div>
           <p style="font-size:var(--text-sm);color:var(--color-muted);margin-bottom:14px">
-            Paket Reguler beroperasi dari garasi ke garasi. Anda dapat melihat peta lokasi garasi resmi SeArah di bawah ini.
+            Paket Reguler beroperasi dari garasi ke garasi.
           </p>
 
           <div class="garage-grid-cards">
@@ -546,12 +533,7 @@
                 <div style="font-size:13px;color:var(--color-muted);margin-top:6px;line-height:1.4">
                   📍 Jl. Raya ${asal} No. 45, Area Terminal &amp; Transit Kota ${asal}
                 </div>
-                <div class="garage-features-list">
-                  <span>❄️ Ruang AC</span>
-                  <span>⚡ Charger</span>
-                  <span>🕌 Musholla</span>
-                  <span>🅿️ Parkir Inap</span>
-                </div>
+        
               </div>
               <button type="button" class="btn btn--secondary btn--sm" onclick="openGarageModal('asal', '${asal}')">
                 🗺️ Lihat Titik Garasi Asal di Peta
@@ -567,12 +549,6 @@
                 </div>
                 <div style="font-size:13px;color:var(--color-muted);margin-top:6px;line-height:1.4">
                   🏁 Jl. Transit Utama No. 88, Area Pool SeArah Kota ${tujuan}
-                </div>
-                <div class="garage-features-list">
-                  <span>❄️ Ruang AC</span>
-                  <span>🚻 Toilet</span>
-                  <span>📶 Wi-Fi</span>
-                  <span>☕ Lounge</span>
                 </div>
               </div>
               <button type="button" class="btn btn--secondary btn--sm" onclick="openGarageModal('tujuan', '${tujuan}')">

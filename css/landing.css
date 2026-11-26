@@ -321,6 +321,7 @@
   height: 52px;
   border-radius: 14px;
   background: var(--color-card);
+  color: var(--color-blue);
   display: grid;
   place-items: center;
   font-size: 26px;
@@ -402,16 +403,19 @@
 .popular-routes__label {
   font-size: 12px;
   font-weight: 700;
-  color: #475569;
+  color: #1e293b;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 .route-chip {
   background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #94a3b8;
   border-radius: 9999px;
   padding: 4px 12px;
   font-size: 12px;
   font-weight: 600;
-  color: #334155;
+  color: #1e293b;
   cursor: pointer;
   transition: all 0.2s ease;
 }

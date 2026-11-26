@@ -16,18 +16,37 @@ main { flex: 1 0 auto; }
   padding: 0 var(--page-pad);
 }
 
+/* ---------- Inline SVG icon system (Feather-style) ---------- */
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.125em;
+  flex: none;
+  stroke-width: 2;
+}
+/* Pill/button dengan ikon: sejajarkan ikon + teks */
+.demo-pill,
+.drv-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
 /* ---------- Navbar Slot ---------- */
 #navbar-slot {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: var(--z-navbar);
   width: 100%;
   pointer-events: none;
   transition: top 0.25s ease;
+  overflow-anchor: none;
 }
 
 #navbar-slot.has-scrolled {
-  top: 18px;
+   top: var(--navbar-floating-offset);
 }
 
 /* ---------- Navbar Base ---------- */
@@ -44,7 +63,14 @@ main { flex: 1 0 auto; }
   border: 1px solid transparent;
   border-radius: 0;
   padding: 0 var(--page-pad);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+  width 0.3s ease,
+  min-height 0.3s ease,
+  padding 0.3s ease,
+  border-radius 0.3s ease,
+  background-color 0.3s ease,
+  box-shadow 0.3s ease,
+  border-color 0.3s ease;
 }
 .navbar .wrap {
   display: flex;
@@ -53,7 +79,7 @@ main { flex: 1 0 auto; }
   width: 100%;
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: padding 0.3s ease;
 }
 .navbar__brand {
   display: flex;
@@ -174,12 +200,14 @@ main { flex: 1 0 auto; }
   margin: 0 auto;
   width: min(1160px, calc(100% - 32px));
   min-height: 60px;
-  background: rgba(248, 250, 252, 0.94);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  /* Lebih pekat (0.98) supaya konten ramai tidak 'tembus' ke dalam pil */
+  background: rgba(248, 250, 252, 0.98);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(203, 213, 225, 0.9);
   border-radius: 9999px; /* Floating Island Pill */
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+  /* Bayangan berlapis & lebih tegas: pil jelas 'melayang di atas' konten */
+  box-shadow: 0 10px 30px rgba(2, 8, 23, 0.18), 0 2px 8px rgba(2, 8, 23, 0.10);
   padding: 6px 20px;
 }
 .navbar.is-scrolled .wrap {
@@ -750,7 +778,7 @@ main { flex: 1 0 auto; }
 
 @media (max-width: 520px) {
   #navbar-slot.has-scrolled {
-    top: 10px;
+    top: 0;
   }
   .navbar.is-scrolled {
     width: calc(100% - 20px);

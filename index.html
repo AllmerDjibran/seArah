@@ -6,7 +6,7 @@
 <title>SeArah – Perjalanan Antar Kota, Aman &amp; Nyaman</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/typography.css">
@@ -35,13 +35,13 @@
       <form class="search" id="search-form">
         <div class="tabs" role="tablist">
           <button type="button" class="tab" role="tab" aria-selected="true" data-paket="reguler">
-            <span>🚐</span> <span>Reguler (Garasi)</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> <span>Reguler (Garasi)</span>
           </button>
           <button type="button" class="tab" role="tab" aria-selected="false" data-paket="door-to-door">
-            <span>🚪</span> <span>Door to Door</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> <span>Door to Door</span>
           </button>
           <button type="button" class="tab" role="tab" aria-selected="false" data-paket="private">
-            <span>⭐</span> <span>Private Eksklusif</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span>Private Eksklusif</span>
           </button>
         </div>
 
@@ -163,17 +163,18 @@
 
         <div class="search-foot">
           <div class="search-note">
-            <span>💡</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             <span id="tab-note">Paket Reguler: Datang ke garasi keberangkatan &amp; berbagi mobil searah.</span>
           </div>
           <button class="btn btn--primary btn-cari" type="submit">
-            🔍 Cari Perjalanan
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Cari Perjalanan</span>
           </button>
         </div>
 
         <!-- Rute Populer Quick Chips -->
         <div class="popular-routes">
-          <span class="popular-routes__label">⚡ Rute Populer:</span>
+          <span class="popular-routes__label"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Rute Populer:</span>
           <button type="button" class="route-chip" data-asal="Kepanjen" data-tujuan="Surabaya">Kepanjen ⇄ Surabaya</button>
           <button type="button" class="route-chip" data-asal="Malang" data-tujuan="Surabaya">Malang ⇄ Surabaya</button>
           <button type="button" class="route-chip" data-asal="Batu" data-tujuan="Sidoarjo">Batu ⇄ Sidoarjo</button>
@@ -200,7 +201,7 @@
             <span class="pill pill--orange">Paling Hemat</span>
           </div>
           <div class="card--paket__img-wrap">
-            <img class="card--paket__img" src="assets/paket-reguler.png" alt="Paket Reguler SeArah">
+            <img class="card--paket__img" src="assets/paket-reguler.png" alt="Paket Reguler SeArah" loading="lazy" decoding="async">
           </div>
           <div class="card--paket__body">
             <h3 class="card--paket__title">REGULER</h3>
@@ -237,7 +238,7 @@
             <span class="pill pill--green">Favorit Penumpang</span>
           </div>
           <div class="card--paket__img-wrap">
-            <img class="card--paket__img" src="assets/paket-d2d.png" alt="Paket Door to Door SeArah">
+            <img class="card--paket__img" src="assets/paket-d2d.png" alt="Paket Door to Door SeArah" loading="lazy" decoding="async">
           </div>
           <div class="card--paket__body">
             <h3 class="card--paket__title">DOOR TO DOOR</h3>
@@ -274,7 +275,7 @@
             <span class="pill pill--orange">VIP Eksklusif</span>
           </div>
           <div class="card--paket__img-wrap">
-            <img class="card--paket__img" src="assets/paket-private.png" alt="Paket Private SeArah">
+            <img class="card--paket__img" src="assets/paket-private.png" alt="Paket Private SeArah" loading="lazy" decoding="async">
           </div>
           <div class="card--paket__body">
             <h3 class="card--paket__title">PRIVATE SHUTTLE</h3>
@@ -316,7 +317,7 @@
 
       <div class="fitur-grid">
         <div class="fitur">
-          <div class="fitur__icon">🛡️</div>
+          <div class="fitur__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div>
             <h3>Asuransi Perjalanan</h3>
             <p>Setiap tiket dilindungi asuransi perjalanan resmi untuk proteksi keselamatan dan kenyamanan menyeluruh.</p>
@@ -324,7 +325,7 @@
         </div>
 
         <div class="fitur">
-          <div class="fitur__icon">✅</div>
+          <div class="fitur__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
           <div>
             <h3>Driver Terverifikasi</h3>
             <p>KTP, SIM, dan kelayakan pengemudi diperiksa ketat oleh admin sebelum diizinkan menerima pesanan.</p>
@@ -332,7 +333,7 @@
         </div>
 
         <div class="fitur">
-          <div class="fitur__icon">🪪</div>
+          <div class="fitur__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg></div>
           <div>
             <h3>Identitas Driver di HP</h3>
             <p>Nama, foto profil, tipe mobil, dan nomor plat pengemudi tampil transparan di aplikasi Anda saat perjalanan.</p>
@@ -340,7 +341,7 @@
         </div>
 
         <div class="fitur">
-          <div class="fitur__icon">⭐</div>
+          <div class="fitur__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
           <div>
             <h3>Rating &amp; Ulasan</h3>
             <p>Nilai pengalaman perjalanan Anda setelah sampai tujuan untuk menjaga kualitas dan integritas layanan.</p>
@@ -348,7 +349,7 @@
         </div>
 
         <div class="fitur">
-          <div class="fitur__icon">👥</div>
+          <div class="fitur__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           <div>
             <h3>Berbagi Mobil Searah</h3>
             <p>Penumpang beda tujuan namun searah (misal Kepanjen → Malang &amp; Surabaya) digabung cerdas untuk efisiensi.</p>
@@ -356,7 +357,7 @@
         </div>
 
         <div class="fitur">
-          <div class="fitur__icon">🧾</div>
+          <div class="fitur__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
           <div>
             <h3>Invoice Otomatis</h3>
             <p>Invoice resmi terunduh otomatis setelah pesanan dikonfirmasi dan dapat diunduh ulang kapan saja.</p>

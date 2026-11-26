@@ -62,11 +62,10 @@ const UI = {
     }
     // tamu & penumpang
     return [
-      link("index.html", "🏠 Beranda"),
-      link("pages/booking.html", "🔎 Cari Travel"),
-      link("index.html#paket", "📦 Paket"),
-      link("index.html#kenapa", "⭐ Keunggulan"),
-      link("javascript:void(0)", "📞 Kontak", "UI.toast('Hubungi CS SeArah 24/7 di WhatsApp: 0812-3456-7890', 'info')"),
+      link("index.html", "Beranda"),
+      link("pages/booking.html", "Cari Travel"),
+      link("index.html#paket", "Paket"),
+      link("index.html#kenapa", "Keunggulan"),
     ].join("");
   },
 
@@ -82,11 +81,13 @@ const UI = {
     if (isLogin && u) {
       const initial = (u.name || u.email || "?").charAt(0).toUpperCase();
       const roleName = u.role === "pengemudi" ? "Pengemudi" : u.role === "admin" ? "Admin" : "Penumpang";
+      const icUser = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+      const icOut = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
       const ddAccount =
         u.role === "penumpang"
-          ? `<a href="${ROOT}pages/profil.html">👤 Profil Saya</a>`
+          ? `<a href="${ROOT}pages/profil.html">${icUser} Profil Saya</a>`
           : u.role === "pengemudi"
-          ? `<a href="${ROOT}pages/edit-akun-driver.html">👤 Akun Saya</a>`
+          ? `<a href="${ROOT}pages/edit-akun-driver.html">${icUser} Akun Saya</a>`
           : "";
 
       el.innerHTML = `
@@ -107,7 +108,7 @@ const UI = {
                 <div class="dropdown__header">Masuk sebagai <b>${u.email}</b></div>
                 ${ddAccount}
                 <div class="divider"></div>
-                <button class="logout" id="dd-logout">🚪 Keluar</button>
+                <button class="logout" id="dd-logout">${icOut} Keluar</button>
               </div>
             </div>
           </div>
@@ -146,14 +147,52 @@ const UI = {
         </header>`;
     }
 
-    const updateNavbarScroll = () => {
-      const header = el.querySelector(".navbar");
-      if (!header) return;
-      if (window.scrollY > 30) { el.classList.add("has-scrolled"); header.classList.add("is-scrolled"); }
-      else { el.classList.remove("has-scrolled"); header.classList.remove("is-scrolled"); }
-    };
-    window.addEventListener("scroll", updateNavbarScroll, { passive: true });
-    updateNavbarScroll();
+    
+/* ===== Navbar Scroll: Smooth & Always Visible ===== */
+const header = el.querySelector(".navbar");
+
+if (header) {
+  // Hapus listener sebelumnya agar tidak terjadi duplikasi.
+  if (el._navbarScrollHandler) {
+    window.removeEventListener("scroll", el._navbarScrollHandler);
+  }  
+let ticking = false;
+
+const ENTER_THRESHOLD = 80;
+const EXIT_THRESHOLD = 40;
+
+let isScrolled = false;
+
+const applyNavbarScroll = () => {
+  const y = window.scrollY || window.pageYOffset || 0;
+
+  if (!isScrolled && y > 80) {
+    isScrolled = true;
+  } else if (isScrolled && y < 40) {
+    isScrolled = false;
+  }
+
+  el.classList.toggle("has-scrolled", isScrolled);
+  header.classList.toggle("is-scrolled", isScrolled);
+
+  ticking = false;
+};
+
+const updateNavbarScroll = () => {
+  if (ticking) return;
+
+  ticking = true;
+  requestAnimationFrame(applyNavbarScroll);
+};
+
+window.addEventListener("scroll", updateNavbarScroll, {
+  passive: true
+});
+
+applyNavbarScroll();
+
+}
+
   },
 
   footer() {

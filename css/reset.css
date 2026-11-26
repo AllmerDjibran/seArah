@@ -70,6 +70,13 @@ table {
   border-spacing: 0;
 }
 
+/* Aksesibilitas: indikator fokus keyboard yang jelas & konsisten */
+:focus-visible {
+  outline: 3px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Aksesibilitas: hormati preferensi reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
